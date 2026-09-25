@@ -1,0 +1,6 @@
+{
+  "name": "RRF HR",
+  "description": "RRF HR - ১০০ টাকার স্ট্যাম্পে কর্মী জামানতনামা ও এগ্রিমেন্ট ব্যবস্থাপনা এবং লিগাল সাইজ পিডিএফ প্রিন্ট ও শেয়ারিং অ্যাপ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
