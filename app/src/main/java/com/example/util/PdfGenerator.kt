@@ -1,6 +1,8 @@
 package com.example.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -23,6 +25,18 @@ object PdfGenerator {
     const val MARGIN_TOP_DEFAULT = 48
     const val MARGIN_TOP_100_TK_STAMP = 324 // Exactly 4.5 inches (4.5 * 72 = 324 points)
     const val MARGIN_BOTTOM = 42
+
+    private fun getOrgLogoBitmap(context: Context, agreement: AgreementEntity): Bitmap? {
+        if (agreement.orgLogoPath != null) {
+            val file = File(agreement.orgLogoPath)
+            if (file.exists()) {
+                try {
+                    return BitmapFactory.decodeFile(agreement.orgLogoPath)
+                } catch (_: Exception) {}
+            }
+        }
+        return null
+    }
 
     /**
      * Generates a 3-page Legal size PDF file.
@@ -59,6 +73,47 @@ object PdfGenerator {
 
         var yPos = if (forStampPaper) MARGIN_TOP_100_TK_STAMP.toFloat() else MARGIN_TOP_DEFAULT.toFloat()
 
+        if (!forStampPaper) {
+            // Organization Logo and Header
+            val logo = getOrgLogoBitmap(context, agreement)
+            if (logo != null) {
+                val logoSize = 44
+                val scaled = Bitmap.createScaledBitmap(logo, logoSize, logoSize, true)
+                canvas1.drawBitmap(scaled, ((PAGE_WIDTH - logoSize) / 2).toFloat(), yPos, null)
+                yPos += logoSize + 6f
+            }
+
+            val orgHeaderPaint = TextPaint().apply {
+                isAntiAlias = true
+                color = Color.rgb(13, 44, 84)
+                textSize = 14f
+                isFakeBoldText = true
+                typeface = Typeface.create(Typeface.SERIF, Typeface.BOLD)
+            }
+            val orgTitle = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ)"
+            val orgWidth = orgHeaderPaint.measureText(orgTitle)
+            canvas1.drawText(orgTitle, (PAGE_WIDTH - orgWidth) / 2f, yPos + 12f, orgHeaderPaint)
+            yPos += 20f
+
+            val subPaint = TextPaint().apply {
+                isAntiAlias = true
+                color = Color.rgb(80, 80, 80)
+                textSize = 10f
+                typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL)
+            }
+            val subTitle = "কর্মী জামানতনামা ও চুক্তিপত্র পোর্টাল"
+            val subWidth = subPaint.measureText(subTitle)
+            canvas1.drawText(subTitle, (PAGE_WIDTH - subWidth) / 2f, yPos + 10f, subPaint)
+            yPos += 18f
+
+            val divPaint = Paint().apply {
+                color = Color.rgb(200, 200, 200)
+                strokeWidth = 1f
+            }
+            canvas1.drawLine(MARGIN_HORIZONTAL.toFloat(), yPos, (PAGE_WIDTH - MARGIN_HORIZONTAL).toFloat(), yPos, divPaint)
+            yPos += 14f
+        }
+
         // Page 1 Title (Centered)
         val titleText = "জামানতনামা"
         val titleWidth = titlePaint.measureText(titleText)
@@ -69,17 +124,35 @@ object PdfGenerator {
         // Page 1 Body
         val rel = agreement.effectiveGuarantorRelationship
         val nid = BanglaTextValidator.toBanglaDigits(agreement.guarantorNid)
+        val rawDesig = agreement.designation.trim()
+        val desigVal = when {
+            rawDesig.contains("account", ignoreCase = true) || rawDesig.contains("অ্যাকাউন্ট") || rawDesig.contains("হিসাব") -> "অফিসার (অ্যাকাউন্টস)"
+            rawDesig.contains("loan", ignoreCase = true) || rawDesig.contains("ঋণ") || rawDesig.contains("লোন") -> "অফিসার (ঋণ)"
+            rawDesig.contains("service", ignoreCase = true) || rawDesig.contains("সার্ভিস") -> "সার্ভিস স্টাফ"
+            rawDesig.contains("branch", ignoreCase = true) || rawDesig.contains("শাখা") -> "শাখা ব্যবস্থাপক"
+            rawDesig.contains("field", ignoreCase = true) || rawDesig.contains("ফিল্ড") -> "ফিল্ড অফিসার"
+            rawDesig.isNotBlank() && rawDesig != "অন্যান্য" -> {
+                if (BanglaTextValidator.containsBengali(rawDesig)) rawDesig
+                else BanglaAddressHelper.transliterateEnglishToBangla(rawDesig)
+            }
+            else -> rawDesig.ifBlank { "অফিসার (ঋণ)" }
+        }
+        val empVal = if (agreement.employeeName.isNotBlank()) agreement.employeeName else "................................"
+        val empFatherVal = if (agreement.employeeFatherName.isNotBlank()) agreement.employeeFatherName else "................................"
+        val gVal = if (agreement.guarantorName.isNotBlank()) agreement.guarantorName else "................................"
+        val gFatherVal = if (agreement.guarantorFatherName.isNotBlank()) agreement.guarantorFatherName else "................................"
+        val gMotherVal = if (agreement.guarantorMotherName.isNotBlank()) agreement.guarantorMotherName else "................................"
 
         val page1Content = buildString {
-            append("আমি ${agreement.guarantorName}, পিতা : ${agreement.guarantorFatherName}, মাতা : ${agreement.guarantorMotherName}, সম্পর্ক : ${rel}।\n")
-            append("ভোটার আইডি নংঃ $nid\n")
+            append("আমি $gVal, পিতা : $gFatherVal, মাতা : $gMotherVal, সম্পর্ক : $rel।\n")
+            append("ভোটার আইডি নং : $nid\n")
             append("বর্তমান ঠিকানা :\n")
             append("গ্রাম : ${agreement.guarantorVillage}, ডাকঘর : ${agreement.guarantorPostOffice}, উপজেলা : ${agreement.guarantorUpazila}, জেলা : ${agreement.guarantorDistrict}।\n\n")
-            append("রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এ ${agreement.designation} পদে নিয়োজিত জনাব ${agreement.employeeName}, পিতাঃ ${agreement.employeeFatherName}।\n")
+            append("রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এ $desigVal পদে নিয়োজিত জনাব $empVal, পিতা : $empFatherVal।\n")
             append("গ্রাম : ${agreement.employeeVillage}, ডাকঘর : ${agreement.employeePostOffice}, উপজেলা : ${agreement.employeeUpazila}, জেলা : ${agreement.employeeDistrict}।\n")
             append("এর জন্য এবং তাহার পক্ষে সার্বিক দায়-দায়িত্ব স্বীকার করিয়া জামিনদার হিসাবে নিম্নলিখিত শর্তাবলী সাপেক্ষে অঙ্গীকারবদ্ধ হইলাম :\n\n")
             append("শর্তাবলী :-\n\n")
-            append("১। যেহেতু রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন জনাব ${agreement.employeeName} কে ${agreement.designation} পদে চাকুরী প্রদান করিয়াছে সেহেতু আমি জনাব ${agreement.guarantorName} এর জন্য জামিনদার বহাল থাকিয়া রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন বরাবরে অত্র জামানত নামা প্রদান করিলাম।\n\n")
+            append("১। যেহেতু রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন জনাব $empVal কে $desigVal পদে চাকুরী প্রদান করিয়াছে সেহেতু আমি জনাব $gVal এর জন্য জামিনদার বহাল থাকিয়া রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন বরাবরে অত্র জামানত নামা প্রদান করিলাম।\n\n")
             append("২। রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এ চাকুরীরত থাকাকালীন উল্লেখিত ব্যক্তির কর্তব্যকাজে অবহেলা, ইচ্ছাকৃত ত্রুটি, স্বীয়-স্বার্থ আদায়ের লক্ষ্যে উদ্দেশ্য প্রণোদিতভাবে কোন কার্য সম্পাদন ফৌজদারী বা দেওয়ানী আইনে শাস্তিযোগ্য অপরাধের দ্বারা প্রত্যক্ষ বা পরোক্ষভাবে রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর কোন ক্ষতিসাধন, দেশের প্রচলিত আইন কানুন, নিয়ম শৃঙ্খলা ও বিধি বিধানের পরিপন্থী কোন বে- আইনী বা অনৈতিক কাজে নিজেকে জড়িত করা, রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর প্রাতিষ্ঠানিক বা প্রশাসনিক আইন বা বেআইনী বা নিয়ম শৃঙ্খলা পরিপন্থি কোন কর্মকান্ডে জড়িত হওয়া অথবা প্রত্যক্ষ বা পরোক্ষভাবে রুরাল রিকনস্ট্রাকশন ফাউন্ডেশনের আর্থিক ক্ষতি সাধন করা, ব্যাংক হতে নগদ উত্তোলন বা নগদে অথবা নানাবিধ উপায়ে আর্থিক সুবিধা লাভ করা কিংবা অর্থ আত্নসাৎ করা, রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর কোন স্থাবর বা অস্থাবর সম্পত্তি বিনষ্ট বা হস্তগত করা কিংবা তার ক্ষতি সাধন করা, রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর সুনাম ক্ষুন্ন হইতে পারে এবং রাষ্ট্রবিরোধী কোন কার্যকলাপে জড়িত হওয়া বা প্রত্যক্ষ ও পরোক্ষভাবে ইত্যাদি যে কোন প্রকার কাজে দায়ী বা দোষী হইলে আমি তাহার সকল প্রকার দায় দায়িত্ব নিজে বহন করিব বা করিতে আইনতঃ বাধ্য থাকিব এবং রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর দাবীকৃত বা আদালত কর্তৃক ঘোষিত ও নির্ধারিত যে কোন অংকের আর্থিক ক্ষতিপূরণ প্রদানে বাধ্য থাকিব।")
         }
 
@@ -177,7 +250,7 @@ object PdfGenerator {
         canvas3.drawText("   স্বামী/পিতার নাম : . . . . . . . . . . . . . . . . .", leftMargin, w3Y + 32f, textPaint)
         canvas3.drawText("   পূর্ণ ঠিকানা : . . . . . . . . . . . . . . . . . . . . . . . .", leftMargin, w3Y + 48f, textPaint)
 
-        val advText = "এ্যাডভোকেটঃ"
+        val advText = "এ্যাডভোকেট :"
         val advBlockX = rightMargin - textPaint.measureText(advText)
         canvas3.drawText(advText, advBlockX, w3Y + 32f, textPaint)
 
@@ -186,10 +259,11 @@ object PdfGenerator {
         // Save PDF to cache dir with staff's exact clean name and edit versioning
         val fileName = "${agreement.baseFileName}.pdf"
         val file = File(context.cacheDir, fileName)
-        val fos = FileOutputStream(file)
-        document.writeTo(fos)
-        fos.flush()
-        fos.close()
+        if (file.exists()) file.delete()
+        FileOutputStream(file).use { fos ->
+            document.writeTo(fos)
+            fos.flush()
+        }
         document.close()
 
         return file

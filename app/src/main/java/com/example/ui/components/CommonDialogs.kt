@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -32,6 +33,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.data.AgreementEntity
 import com.example.ui.theme.*
+import com.example.util.AgreementConditionsPdfGenerator
+import com.example.util.HtmlExporter
 import com.example.util.PdfGenerator
 import com.example.util.QrCodeGenerator
 import com.example.util.ShareHelper
@@ -109,7 +112,8 @@ fun SubmissionConfirmationDialog(
     agreement: AgreementEntity,
     onDismiss: () -> Unit,
     onViewAgreement: () -> Unit,
-    onShare: () -> Unit
+    onShare: () -> Unit,
+    onGoToHome: () -> Unit
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -200,16 +204,28 @@ fun SubmissionConfirmationDialog(
                 }
                 Spacer(Modifier.height(12.dp))
                 Text(
-                    if (agreement.editCount > 0)
-                        "আপনার সংশোধিত এগ্রিমেন্ট ফরমটি সফলভাবে সংরক্ষিত হয়েছে। অবিলম্বে ফাইলটি পুনরায় শেয়ার বা প্রিন্ট করতে পারেন।"
-                    else
-                        "আপনার এগ্রিমেন্ট ফরমটি সফলভাবে অ্যাডমিন সিস্টেমে জমা হয়েছে।",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    text = "আপনার ফরম পূরণ সম্পন্ন হয়েছে। অনুগ্রহ করে হোমপেজে গিয়ে আপনার ফরম প্রিন্ট ও শেয়ার করুন।",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF047857),
                     textAlign = TextAlign.Center
                 )
-                Spacer(Modifier.height(20.dp))
+                Spacer(Modifier.height(16.dp))
                 Button(
+                    onClick = {
+                        onDismiss()
+                        onGoToHome()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669)),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Icon(Icons.Default.Home, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("হোম পেজে যান (প্রিন্ট ও শেয়ার)", fontWeight = FontWeight.Bold)
+                }
+                Spacer(Modifier.height(8.dp))
+                OutlinedButton(
                     onClick = {
                         onDismiss()
                         onViewAgreement()
@@ -217,7 +233,7 @@ fun SubmissionConfirmationDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag("view_agreement_btn"),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                    shape = RoundedCornerShape(10.dp)
                 ) {
                     Icon(Icons.Default.Description, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
@@ -229,11 +245,12 @@ fun SubmissionConfirmationDialog(
                         onDismiss()
                         onShare()
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10.dp)
                 ) {
                     Icon(Icons.Default.Share, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text("হোয়াটসঅ্যাপে শেয়ার করুন")
+                    Text("শেয়ার করুন")
                 }
             }
         }
@@ -294,11 +311,36 @@ fun ShareSheetDialog(
                     color = LightGreenDark
                 )
                 Text(
-                    "নির্ধারিত মোবাইল নম্বরে এক ক্লিকে পিডিএফ পাঠান:",
+                    "WhatsApp গ্রুপ বা যেকোনো চ্যাটে এক ক্লিকে পিডিএফ পাঠান:",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(Modifier.height(8.dp))
+
+                Button(
+                    onClick = {
+                        val pdfFile = PdfGenerator.generateAgreementPdf(context, agreement, useStampMargin)
+                        val caption = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ) - কর্মী জামানতনামা ও চুক্তিপত্র\nক্রমিক নং: ${agreement.serialNo}\nকর্মী: ${agreement.employeeName} (${agreement.designation})\nজামিনদার: ${agreement.guarantorName}\nতারিখ: ${agreement.submissionDate}"
+                        ShareHelper.shareToWhatsApp(context, pdfFile, null, caption)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = WhatsAppGreen)
+                ) {
+                    Icon(Icons.Default.Send, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text("WhatsApp গ্রুপ বা যেকোনো চ্যাটে পাঠান", fontWeight = FontWeight.Bold, color = Color.White)
+                }
+
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    "অথবা নির্দিষ্ট মোবাইল নম্বরে পাঠান:",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(Modifier.height(6.dp))
 
                 ShareHelper.PRESET_WHATSAPP_NUMBERS.forEach { phone ->
                     OutlinedButton(
@@ -383,6 +425,20 @@ fun ShareSheetDialog(
                     Icon(Icons.Default.Article, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
                     Text("ওয়ার্ড (.doc) ফাইল শেয়ার করুন")
+                }
+
+                Spacer(Modifier.height(6.dp))
+
+                OutlinedButton(
+                    onClick = {
+                        val htmlFile = HtmlExporter.exportAgreementToHtml(context, agreement)
+                        ShareHelper.openFile(context, htmlFile)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.Language, contentDescription = null, tint = Color(0xFF059669))
+                    Spacer(Modifier.width(8.dp))
+                    Text("রেসপন্সিভ HTML ফাইল (ফোন ও ল্যাপটপে দেখুন)", color = Color(0xFF059669), fontWeight = FontWeight.Bold)
                 }
             }
         },
@@ -495,3 +551,303 @@ fun AppShareQrDialog(onDismiss: () -> Unit) {
         }
     )
 }
+
+@Composable
+fun StampInfoDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = {
+            Surface(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                modifier = Modifier.size(50.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.Print,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
+        },
+        title = {
+            Text(
+                text = "১০০ টাকার স্ট্যাম্প নির্দেশিকা",
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                fontSize = 18.sp
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "১. নন-জুডিশিয়াল স্ট্যাম্পের ধরন:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "কর্মী জামানতনামা ও চুক্তিপত্রটি ৩টি ১০০ টাকার নন-জুডিশিয়াল স্ট্যাম্প অথবা ৩০০ টাকার জুডিশিয়াল স্ট্যাম্পে প্রিন্ট করা যাবে।",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 18.sp
+                )
+
+                Text(
+                    text = "২. মার্জিন ও স্পেসিং নির্দেশনা:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "প্রথম পাতার উপরের অংশে ৪.০ ইঞ্চি মার্জিন স্বয়ংক্রিয়ভাবে সংরক্ষিত রয়েছে যাতে স্ট্যাম্পের সরকারী সিল ও মনোগ্রামের নিচে চুক্তিপত্রের লেখা নিখুঁতভাবে বসে।",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 18.sp
+                )
+
+                Text(
+                    text = "৩. কাগজের মাপ:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "প্রিন্ট করার সময় লিগাল সাইজ (Legal Paper: ৮.৫ × ১৪ ইঞ্চি) নির্বাচন করুন এবং স্কেলিং ১০০% (Default) রাখুন।",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 18.sp
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onDismiss,
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text("ঠিক আছে")
+            }
+        }
+    )
+}
+
+@Composable
+fun OrgInfoDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = {
+            Surface(
+                shape = CircleShape,
+                color = Color(0xFF0D9488).copy(alpha = 0.1f),
+                modifier = Modifier.size(50.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.Apartment,
+                        contentDescription = null,
+                        tint = Color(0xFF0D9488),
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
+        },
+        title = {
+            Text(
+                text = "সংস্থা পরিচিতি ও কার্যালয়",
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                fontSize = 18.sp
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ) ১৯৮২ সালে প্রতিষ্ঠিত একটি জাতীয় পর্যায়ের শীর্ষস্থানীয় বেসরকারী উন্নয়ন সংস্থা। সংস্থাটি বাংলাদেশের তৃণমূল জনগোষ্ঠীর অর্থনৈতিক ও সামাজিক ক্ষমতায়নে নিরলস কাজ করে যাচ্ছে।",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 18.sp
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "প্রধান কার্যালয়:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color(0xFF0D9488)
+                )
+                Text(
+                    text = "আরআরএফ ভবন, সিএন্ডবি রোড, কারবালা, যশোর-৭৪০০",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onDismiss,
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D9488))
+            ) {
+                Text("ঠিক আছে")
+            }
+        }
+    )
+}
+
+@Composable
+fun TermsInfoDialog(
+    onDismiss: () -> Unit,
+    onViewFullScreen: (() -> Unit)? = null
+) {
+    val context = LocalContext.current
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = {
+            Surface(
+                shape = CircleShape,
+                color = Color(0xFF059669).copy(alpha = 0.1f),
+                modifier = Modifier.size(50.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.Gavel,
+                        contentDescription = null,
+                        tint = Color(0xFF059669),
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
+        },
+        title = {
+            Text(
+                text = "নিয়োগ প্রাপ্তির শর্তাবলী",
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                fontSize = 18.sp
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "১. জামিনদারের সাথে ৩০০ টাকার (১০০ টাকার ৩টি) নন-জুডিশিয়াল স্ট্যাম্পে চুক্তি সম্পন্ন করতে হবে。\n২. নির্ধারিত হারে ফেরতযোগ্য জামানত জমা দিতে হবে (পদবী অনুযায়ী ৫,০০০/- থেকে ৪০,০০০/- টাকা)।\n৩. স্থানীয় ২ জন বিশিষ্ট ব্যক্তির প্রত্যয়নপত্র (২৫ টাকার স্ট্যাম্পে) জমা দিতে হবে。\n৪. নমিনির ১ কপি ছবি ও এনআইডি জমা দিতে হবে。\n৫. শিক্ষাগত যোগ্যতার মূল সনদ চাকুরীকালীন সময়ে জমা রাখতে হবে।",
+                    fontSize = 12.5.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 18.sp
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onDismiss()
+                    if (onViewFullScreen != null) {
+                        onViewFullScreen()
+                    } else {
+                        val pdf = AgreementConditionsPdfGenerator.generateConditionsPdf(context)
+                        ShareHelper.openFile(context, pdf)
+                    }
+                },
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669))
+            ) {
+                Text("সম্পূর্ণ শর্তাবলী ও PDF")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("বন্ধ করুন")
+            }
+        }
+    )
+}
+
+@Composable
+fun ContactInfoDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = {
+            Surface(
+                shape = CircleShape,
+                color = Color(0xFFD97706).copy(alpha = 0.1f),
+                modifier = Modifier.size(50.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.Call,
+                        contentDescription = null,
+                        tint = Color(0xFFD97706),
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
+        },
+        title = {
+            Text(
+                text = "যোগাযোগ ও হেল্পলাইন",
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                fontSize = 18.sp
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "আরআরএফ মানবসম্পদ বিভাগ (HR Division):",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = "• প্রধান কার্যালয়: আরআরএফ ভবন, সিএন্ডবি রোড, কারবালা, যশোর-৭৪০০\n• ফোন: ০২৪৭৭৭৬৩৮০১, ০২৪৭৭৭৬৩৮০২, ০২৪৭৭৭৬৩৮০৩\n• ফ্যাক্স: ০২৪৭৭৭৬৩৮০৪\n• ইমেইল: info@rrf-bd.org / hr@rrf-bd.org\n• ওয়েবসাইট: www.rrf-bd.org",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 20.sp
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onDismiss,
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD97706))
+            ) {
+                Text("ঠিক আছে")
+            }
+        }
+    )
+}
+

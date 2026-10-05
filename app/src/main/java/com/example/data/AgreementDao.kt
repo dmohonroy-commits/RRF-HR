@@ -37,6 +37,24 @@ interface AgreementDao {
     @Query("DELETE FROM agreements WHERE id = :id")
     suspend fun deleteAgreementById(id: Long)
 
+    @Query("DELETE FROM agreements WHERE isSubmittedByThisDevice = 1")
+    suspend fun deleteLocalWorkerAgreements()
+
+    @Query("DELETE FROM agreements")
+    suspend fun deleteAllAgreements()
+
+    @Query("SELECT * FROM agreements ORDER BY submissionTimestamp DESC")
+    suspend fun getAllAgreementsList(): List<AgreementEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAgreements(agreements: List<AgreementEntity>)
+
     @Query("UPDATE agreements SET isPrinted = :isPrinted, printDate = :printDate WHERE id = :id")
     suspend fun updatePrintStatus(id: Long, isPrinted: Boolean, printDate: String?)
+
+    @Query("UPDATE agreements SET assignedBranch = :branch, dispatchDate = :dispatchDate, verificationStatus = :status WHERE id = :id")
+    suspend fun dispatchToBranch(id: Long, branch: String, dispatchDate: String, status: String = "পাঠানো হয়েছে")
+
+    @Query("UPDATE agreements SET verificationStatus = :status, verificationDate = :verificationDate, branchNotes = :notes WHERE id = :id")
+    suspend fun updateBranchVerification(id: Long, status: String, verificationDate: String?, notes: String)
 }

@@ -62,6 +62,34 @@ class AgreementRepository(
         agreementDao.deleteAgreementById(id)
     }
 
+    suspend fun deleteLocalWorkerAgreements() {
+        agreementDao.deleteLocalWorkerAgreements()
+    }
+
+    suspend fun deleteAllAgreements() {
+        agreementDao.deleteAllAgreements()
+    }
+
+    suspend fun getAllAgreementsList(): List<AgreementEntity> {
+        return agreementDao.getAllAgreementsList()
+    }
+
+    suspend fun insertAgreements(list: List<AgreementEntity>) {
+        agreementDao.insertAgreements(list)
+    }
+
+    suspend fun getAllAddressItems(): List<AddressItemEntity> {
+        return addressDao.getAllAddressItems()
+    }
+
+    suspend fun insertAddressItems(list: List<AddressItemEntity>) {
+        addressDao.insertAddressItems(list)
+    }
+
+    suspend fun deleteAllAddressItems() {
+        addressDao.deleteAllAddressItems()
+    }
+
     suspend fun updatePrintStatus(id: Long, isPrinted: Boolean) {
         val printDate = if (isPrinted) {
             SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
@@ -69,6 +97,20 @@ class AgreementRepository(
             null
         }
         agreementDao.updatePrintStatus(id, isPrinted, printDate)
+    }
+
+    suspend fun dispatchToBranch(id: Long, branch: String) {
+        val dispatchDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        agreementDao.dispatchToBranch(id, branch.trim(), dispatchDate, "পাঠানো হয়েছে")
+    }
+
+    suspend fun updateBranchVerification(id: Long, status: String, notes: String = "") {
+        val verificationDate = if (status == "যাচাই সম্পন্ন" || status == "প্রত্যাখ্যাত") {
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        } else {
+            null
+        }
+        agreementDao.updateBranchVerification(id, status, verificationDate, notes)
     }
 
     private suspend fun saveLearnedAddresses(

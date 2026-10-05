@@ -1,0 +1,2562 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RRF HR - কর্মী জামানতনামা ও এগ্রিমেন্ট সিস্টেম</title>
+  
+  <!-- Google Fonts: Hind Siliguri & Noto Sans Bengali -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons & QRCode library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0D6EFD;
+      --primary-dark: #0A58CA;
+      --primary-light: #E7F1FF;
+      --success: #198754;
+      --warning: #FFC107;
+      --danger: #DC3545;
+      --dark: #212529;
+      --light-bg: #F4F6F9;
+      --border-color: #DEE2E6;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Hind Siliguri', 'SolaimanLipi', 'Kalpurush', sans-serif;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* Top Navigation Bar */
+    header.navbar {
+      background: #ffffff;
+      color: var(--primary);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e2e8f0;
+      box-shadow: 0 4px 15px rgba(13, 110, 253, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-brand i {
+      font-size: 26px;
+      background: rgba(13, 110, 253, 0.1);
+      color: var(--primary);
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .nav-brand h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--primary);
+    }
+
+    .nav-brand p {
+      font-size: 0.82rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Common Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-light {
+      background: #f8fafc;
+      color: var(--primary);
+      border: 1.5px solid #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-light:hover {
+      background: #e2e8f0;
+      color: var(--primary-dark);
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid currentColor;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 25px auto;
+      padding: 0 16px;
+    }
+
+    /* Screen Views */
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active {
+      display: block;
+    }
+
+    /* 3D Colorful Card styling */
+    .card {
+      background: #FFFFFF;
+      border-radius: 18px;
+      box-shadow: 0 12px 28px -6px rgba(13, 110, 253, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 26px;
+      border: 1.5px solid #E2E8F0;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 16px 36px -6px rgba(13, 110, 253, 0.18), 0 6px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    /* 3D Colorful Header Banners */
+    .card-header-3d {
+      padding: 16px 22px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .card-header-3d.theme-purple {
+      background: linear-gradient(135deg, #3730A3, #4F46E5, #6366F1);
+      border-bottom: 2px solid #4338CA;
+    }
+
+    .card-header-3d.theme-blue {
+      background: linear-gradient(135deg, #0D3268, #1553A3, #2563EB);
+      border-bottom: 2px solid #1D4ED8;
+    }
+
+    .card-header-3d.theme-emerald {
+      background: linear-gradient(135deg, #065F46, #0D9488, #10B981);
+      border-bottom: 2px solid #047857;
+    }
+
+    .card-header-3d .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+    }
+
+    .card-number-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: white;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.8);
+      border: 2px solid rgba(255,255,255,0.7);
+    }
+
+    .card-badge-pill {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* 3D Subsection Banners */
+    .address-subsection-banner {
+      background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+      border: 1px solid #BFDBFE;
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin: 18px 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #1E40AF;
+      font-weight: 700;
+      font-size: 0.98rem;
+      box-shadow: 0 2px 5px rgba(37, 99, 235, 0.08);
+    }
+
+    .address-subsection-banner.theme-emerald {
+      background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+      border-color: #A7F3D0;
+      color: #065F46;
+      box-shadow: 0 2px 5px rgba(16, 185, 129, 0.08);
+    }
+
+    /* Form Layout */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    .form-group label .label-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #0D6EFD;
+      display: inline-block;
+      box-shadow: 0 1px 3px rgba(13, 110, 253, 0.4);
+    }
+
+    .form-group label .required {
+      color: var(--danger);
+      font-weight: 800;
+      margin-left: 2px;
+    }
+
+    /* 3D Tactile Input Boxes */
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: linear-gradient(180deg, #F8FAFD 0%, #FFFFFF 100%);
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      font-size: 0.96rem;
+      color: #0F172A;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04), 0 2px 5px rgba(0, 0, 0, 0.02);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-control:hover {
+      border-color: #94A3B8;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .form-control:focus {
+      outline: none;
+      background: #FFFFFF;
+      border-color: #0D6EFD;
+      box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.18), inset 0 1px 2px rgba(0, 0, 0, 0.02), 0 8px 18px rgba(13, 110, 253, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* 3D Checkbox tile */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: linear-gradient(180deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 1.5px solid #86EFAC;
+      border-radius: 14px;
+      margin: 16px 0 20px 0;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transition: all 0.2s ease;
+    }
+
+    .checkbox-group:hover {
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .checkbox-group input {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #16A34A;
+    }
+
+    .checkbox-group span {
+      color: #065F46;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .notice-box {
+      background: #FFF3CD;
+      border-left: 4px solid var(--warning);
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #856404;
+    }
+
+    /* Table for Records */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table.data-table th, table.data-table td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.92rem;
+    }
+
+    table.data-table th {
+      background: #F8F9FA;
+      font-weight: 700;
+      color: #495057;
+    }
+
+    table.data-table tr:hover {
+      background: #FAFAFA;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .badge-success { background: #D1E7DD; color: #0F5132; }
+    .badge-warning { background: #FFF3CD; color: #664D03; }
+    .badge-info { background: #CFF4FC; color: #055160; }
+
+    /* Action bar */
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    /* ============================================================== */
+    /* LEGAL STAMP PRINT PREVIEW STYLING (8.5" x 14" LEGAL PAPER)     */
+    /* ============================================================== */
+    #printPreviewModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .preview-modal-dialog {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      padding: 20px;
+    }
+
+    .preview-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .preview-pages-container {
+      background: #8e9bb0;
+      padding: 25px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      overflow-x: auto;
+    }
+
+    /* Exact Legal Stamp Sheet */
+    .legal-sheet {
+      width: 8.5in;
+      min-height: 14in;
+      height: 14in;
+      background: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      padding: 0.5in 0.8in 0.6in 0.8in;
+      box-sizing: border-box;
+      position: relative;
+      font-size: 16pt;
+      line-height: 1.75;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    /* Top stamp spacing area: Exactly 4.0 inches reserved for 100 Taka Stamp */
+    .stamp-margin-top {
+      height: 4.0in;
+      width: 100%;
+      border-bottom: 1px dashed #ccc;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .stamp-margin-top::after {
+      content: "এখানে ১০০ টাকার স্ট্যাম্প থাকবে (৪ ইঞ্চি মার্জিন সংরক্ষিত)";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #999;
+      font-size: 11pt;
+      font-weight: 500;
+      border: 1px dashed #bbb;
+      padding: 6px 14px;
+      border-radius: 4px;
+    }
+
+    .sheet-header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11pt;
+      color: #333;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .agreement-title {
+      text-align: center;
+      font-size: 22pt;
+      font-weight: 700;
+      text-decoration: underline;
+      margin-bottom: 18px;
+    }
+
+    .agreement-body {
+      text-align: justify;
+      font-size: 14pt;
+      line-height: 1.8;
+    }
+
+    .terms-heading {
+      font-weight: 700;
+      font-size: 15pt;
+      margin: 10px 0;
+    }
+
+    .witness-table {
+      width: 100%;
+      margin-top: 15px;
+      border-collapse: collapse;
+      font-size: 12.5pt;
+    }
+
+    .witness-table td {
+      vertical-align: top;
+      padding: 6px 4px;
+    }
+
+    .sheet-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10pt;
+      color: #555;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+    }
+
+    /* Print Media Query */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      #printContainer, #printContainer * {
+        visibility: visible;
+      }
+
+      #printContainer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+      }
+
+      .legal-sheet {
+        box-shadow: none;
+        margin: 0;
+        padding: 0.5in 0.8in 0.5in 0.8in;
+        page-break-after: always;
+        break-after: page;
+        height: 14in !important;
+        width: 8.5in !important;
+      }
+
+      .stamp-margin-top {
+        border-bottom: none !important;
+      }
+
+      .stamp-margin-top::after {
+        display: none !important;
+      }
+
+      @page {
+        size: legal portrait;
+        margin: 0;
+      }
+    }
+
+    /* 3D Animated Title Styles */
+    .title-banner-3d {
+      background: radial-gradient(circle at 50% 40%, #194C82 0%, #0D2C54 60%, #061A35 100%);
+      color: white;
+      border-radius: 14px;
+      padding: 16px 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(6, 26, 53, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+      text-align: center;
+      border: 1.5px solid rgba(212, 175, 55, 0.85);
+      perspective: 800px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .title-banner-3d::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      animation: bannerGleam 4.5s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes bannerGleam {
+      0% { left: -100%; }
+      35%, 100% { left: 150%; }
+    }
+
+    .title-text-3d {
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin: 0;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.6px;
+      display: inline-block;
+      transform-style: preserve-3d;
+      animation: text3dFloat 3.2s ease-in-out infinite alternate;
+      text-shadow:
+        0 1px 0 #16487E,
+        0 2px 0 #0B2D54,
+        0 3px 0 #041427,
+        0 4px 1px rgba(0, 0, 0, 0.6),
+        0 6px 12px rgba(0, 0, 0, 0.4),
+        0 0 16px rgba(255, 215, 0, 0.4);
+    }
+
+    @keyframes text3dFloat {
+      0% {
+        transform: perspective(600px) rotateX(4.5deg) rotateY(-3.5deg) scale(0.99);
+      }
+      50% {
+        transform: perspective(600px) rotateX(-3.5deg) rotateY(3.5deg) scale(1.025);
+      }
+      100% {
+        transform: perspective(600px) rotateX(4.5deg) rotateY(-3.5deg) scale(0.99);
+      }
+    }
+
+    /* 3-Line Menu Drawer styles */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(3px);
+      z-index: 2500;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .drawer-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .app-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 86vw;
+      background: #ffffff;
+      z-index: 2600;
+      box-shadow: 8px 0 30px rgba(0, 0, 0, 0.25);
+      transform: translateX(-100%);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .app-drawer.open {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      background: linear-gradient(135deg, #0D6EFD 0%, #0A58CA 100%);
+      color: #ffffff;
+      padding: 22px 20px;
+    }
+    .drawer-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .drawer-header-logo {
+      width: 46px;
+      height: 46px;
+      background: #ffffff;
+      color: #0D6EFD;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .drawer-header-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    .drawer-header-welcome {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.4;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .drawer-menu {
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: #1E293B;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.98rem;
+      background: #ffffff;
+      border: 1.5px solid #E2E8F0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .drawer-item:hover, .drawer-item.active {
+      background: #EFF6FF;
+      border-color: #0D6EFD;
+      color: #0D6EFD;
+      transform: translateX(3px);
+    }
+    .drawer-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #EFF6FF;
+      color: #0D6EFD;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .drawer-item-text {
+      flex: 1;
+      text-align: left;
+    }
+    .drawer-item-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: block;
+    }
+    .drawer-item-sub {
+      font-size: 0.78rem;
+      color: #64748B;
+      display: block;
+    }
+    .drawer-section-card {
+      border: 1.5px solid #E2E8F0;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .drawer-section-header {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: #F8FAFC;
+    }
+    .drawer-submenu {
+      padding: 8px 10px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 1px solid #F1F5F9;
+    }
+    .drawer-sub-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      background: #F8FAFC;
+    }
+    .drawer-sub-item:hover, .drawer-sub-item.active {
+      background: #E0E7FF;
+      color: #4338CA;
+    }
+    .nav-hamburger-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1.5px solid #CBD5E1;
+      background: #ffffff;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+    }
+    .nav-hamburger-btn:hover {
+      background: #EFF6FF;
+      border-color: var(--primary);
+      transform: scale(1.05);
+    }
+
+    /* Welcome Hero 3D Card on Home */
+    .home-hero-card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1.5px solid #E2E8F0;
+      box-shadow: 0 12px 30px rgba(13, 110, 253, 0.12), 0 4px 10px rgba(0,0,0,0.04);
+      padding: 28px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .home-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0D6EFD 0%, #1D4ED8 100%);
+      color: #ffffff;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+      margin-top: 14px;
+    }
+    .home-action-card-3d {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 2px solid rgba(13, 110, 253, 0.3);
+      box-shadow: 0 10px 24px rgba(13, 110, 253, 0.15), 0 4px 10px rgba(0,0,0,0.05);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .home-action-header {
+      background: linear-gradient(90deg, #0D6EFD, #2563EB);
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .home-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .home-info-card {
+      background: #ffffff;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      transition: all 0.25s ease;
+    }
+    .home-info-card:hover {
+      border-color: #0D6EFD;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(13, 110, 253, 0.12);
+    }
+    .home-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1.5px solid #E2E8F0;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Drawer Overlay & 3-Line Menu Drawer -->
+  <div id="drawerOverlay" class="drawer-overlay" onclick="closeNavDrawer()"></div>
+  <aside id="appNavDrawer" class="app-drawer">
+    <div class="drawer-header">
+      <div class="drawer-header-brand">
+        <div class="drawer-header-logo">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <div>
+          <div style="font-size: 0.75rem; letter-spacing: 0.5px; opacity: 0.85; font-weight: 700;">RRF HR PORTAL</div>
+          <div class="drawer-header-title">RRF HR</div>
+        </div>
+      </div>
+      <div style="font-size: 1.05rem; font-weight: 800; margin-bottom: 6px;">রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন</div>
+      <div class="drawer-header-welcome">
+        <i class="fa-solid fa-hand-holding-heart" style="margin-right: 4px;"></i>
+        রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন পরিবারে আপনাকে স্বাগতম
+      </div>
+    </div>
+
+    <div class="drawer-menu">
+      <!-- 1. Home Item -->
+      <div class="drawer-item" onclick="showView('home'); closeNavDrawer();">
+        <div class="drawer-item-icon"><i class="fa-solid fa-house"></i></div>
+        <div class="drawer-item-text">
+          <span class="drawer-item-title">হোম পেজ</span>
+          <span class="drawer-item-sub">স্বাগতম ও বিবরণী ওভারভিউ</span>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.8rem;"></i>
+      </div>
+
+      <!-- 2. Stamp Section (ষ্ট্যাম্প) -->
+      <div class="drawer-section-card">
+        <div class="drawer-section-header" onclick="toggleDrawerSubmenu('drawerStampSubmenu')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(13,110,253,0.1); color: var(--primary); display: flex; align-items: center; justify-content: center;">
+              <i class="fa-solid fa-stamp"></i>
+            </div>
+            <div>
+              <div style="font-weight: 800; color: var(--primary); font-size: 0.95rem;">ষ্ট্যাম্প</div>
+              <div style="font-size: 0.75rem; color: #64748B;">চুক্তিপত্র ও জামানতনামা</div>
+            </div>
+          </div>
+          <i id="drawerStampArrow" class="fa-solid fa-chevron-down" style="color: var(--primary); font-size: 0.8rem;"></i>
+        </div>
+        <div id="drawerStampSubmenu" class="drawer-submenu">
+          <div class="drawer-sub-item" onclick="showView('form'); closeNavDrawer();">
+            <i class="fa-solid fa-file-signature" style="color: var(--primary);"></i>
+            <div>
+              <div style="color: #0F172A; font-weight: 700;">ফর্ম পূরণ</div>
+              <div style="font-size: 0.74rem; color: #64748B;">কর্মীর ও জামিনদারের পেজ</div>
+            </div>
+          </div>
+          <div class="drawer-sub-item" onclick="openInfoModal('stamp'); closeNavDrawer();">
+            <i class="fa-solid fa-print" style="color: #0D9488;"></i>
+            <div>
+              <div style="color: #0F172A; font-weight: 700;">স্ট্যাম্প প্রিন্ট ও মার্জিন তথ্য</div>
+              <div style="font-size: 0.74rem; color: #64748B;">১০০ টাকার স্ট্যাম্প নির্দেশিকা</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Other Information (অন্যান্য তথ্য) -->
+      <div class="drawer-section-card">
+        <div class="drawer-section-header" onclick="toggleDrawerSubmenu('drawerInfoSubmenu')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(13,148,136,0.1); color: #0D9488; display: flex; align-items: center; justify-content: center;">
+              <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div>
+              <div style="font-weight: 800; color: #0F172A; font-size: 0.95rem;">অন্যান্য তথ্য</div>
+              <div style="font-size: 0.75rem; color: #64748B;">সংস্থা, নিয়মাবলী ও যোগাযোগ</div>
+            </div>
+          </div>
+          <i id="drawerInfoArrow" class="fa-solid fa-chevron-down" style="color: #64748B; font-size: 0.8rem;"></i>
+        </div>
+        <div id="drawerInfoSubmenu" class="drawer-submenu">
+          <div class="drawer-sub-item" onclick="openInfoModal('org'); closeNavDrawer();">
+            <i class="fa-solid fa-building" style="color: #0D9488;"></i>
+            <div>
+              <div style="color: #0F172A; font-weight: 700;">সংস্থা পরিচিতি</div>
+              <div style="font-size: 0.74rem; color: #64748B;">আরআরএফ প্রধান কার্যালয়, যশোর</div>
+            </div>
+          </div>
+          <div class="drawer-sub-item" onclick="openTermsPdfModal(); closeNavDrawer();">
+            <i class="fa-solid fa-file-pdf" style="color: #7C3AED;"></i>
+            <div style="flex:1;">
+              <div style="color: #0F172A; font-weight: 700;">চুক্তিপত্রের নিয়মাবলী</div>
+              <div style="font-size: 0.74rem; color: #64748B;">শর্তাবলী ও নির্দেশিকা PDF</div>
+            </div>
+            <span style="background:rgba(124,58,237,0.12); color:#7C3AED; font-weight:700; font-size:0.65rem; padding:2px 6px; border-radius:4px;">PDF</span>
+          </div>
+          <div class="drawer-sub-item" onclick="openInfoModal('contact'); closeNavDrawer();">
+            <i class="fa-solid fa-headset" style="color: #D97706;"></i>
+            <div>
+              <div style="color: #0F172A; font-weight: 700;">যোগাযোগ ও হেল্পলাইন</div>
+              <div style="font-size: 0.74rem; color: #64748B;">সহায়তা কেন্দ্র ও জরুরি নম্বর</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Records & Admin -->
+      <div class="drawer-item" onclick="showView('records'); closeNavDrawer();">
+        <div class="drawer-item-icon" style="background: rgba(16,185,129,0.1); color: #10B981;"><i class="fa-solid fa-list-check"></i></div>
+        <div class="drawer-item-text">
+          <span class="drawer-item-title">সকল সংরক্ষিত এগ্রিমেন্ট</span>
+          <span class="drawer-item-sub">তালিকাবদ্ধ রেকর্ডসমূহ</span>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.8rem;"></i>
+      </div>
+
+      <div class="drawer-item" onclick="openAdminModal(); closeNavDrawer();" style="border-color: #DDD6FE;">
+        <div class="drawer-item-icon" style="background: rgba(124,58,237,0.1); color: #7C3AED;"><i class="fa-solid fa-user-shield"></i></div>
+        <div class="drawer-item-text">
+          <span class="drawer-item-title" style="color: #7C3AED;">অ্যাডমিন প্যানেল</span>
+          <span class="drawer-item-sub">কর্মকর্তাদের লগইন</span>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="color:#7C3AED; font-size:0.8rem;"></i>
+      </div>
+    </div>
+
+    <div style="padding: 14px 20px; background: #F1F5F9; text-align: center; font-size: 0.78rem; color: #64748B;">
+      রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF) • সংস্করণ ১.০
+    </div>
+  </aside>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <!-- Three-Line Menu Bar (Hamburger) -->
+      <button class="nav-hamburger-btn" onclick="toggleNavDrawer()" title="থ্রি লাইন মেনু বার" aria-label="মেনু বার">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Center Brand: RRF HR -->
+      <div class="nav-brand" style="cursor: pointer;" onclick="showView('home')">
+        <div>
+          <h1 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 800; font-size: 1.35rem; color: var(--primary);">RRF HR</h1>
+          <p style="margin: 0; font-size: 0.82rem; opacity: 0.9; color: #64748B; font-weight: 600;">কর্মী জামানতনামা ও এগ্রিমেন্ট পোর্টাল</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Admin Panel and Actions -->
+    <div class="nav-actions">
+      <button class="btn btn-light" onclick="showView('form')">
+        <i class="fa-solid fa-file-pen"></i> ফর্ম পূরণ
+      </button>
+      <button class="btn btn-primary" onclick="openAdminModal()" style="background:#7C3AED; border-color:#7C3AED; box-shadow: 0 4px 12px rgba(124,58,237,0.3);">
+        <i class="fa-solid fa-user-shield"></i> অ্যাডমিন প্যানেল
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- VIEW 0: HOME / LANDING (এ্যাপে ঢোকার পর স্বাগতম পেজ) -->
+    <section id="homeView" class="view-panel active">
+
+      <!-- 3D HERO WELCOME CARD -->
+      <div class="home-hero-card">
+        <div style="width: 72px; height: 72px; margin: 0 auto 16px auto; background: rgba(13,110,253,0.1); border: 2px solid rgba(13,110,253,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary); box-shadow: 0 8px 20px rgba(13,110,253,0.18);">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+
+        <h1 style="font-size: 1.85rem; font-weight: 800; color: #0F172A; margin-bottom: 4px; line-height: 1.3;">
+          রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন
+        </h1>
+
+        <div>
+          <div class="home-hero-badge">
+            <i class="fa-solid fa-heart" style="font-size: 0.9rem;"></i>
+            <span>রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন পরিবারে আপনাকে স্বাগতম</span>
+          </div>
+        </div>
+
+        <p style="margin-top: 16px; color: #64748B; font-size: 1rem; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+          কর্মী জামানতনামা ও ১০০ টাকার নন-জুডিশিয়াল স্ট্যাম্প এগ্রিমেন্ট ব্যবস্থাপনা এবং লিগাল সাইজ প্রিন্ট ও তাৎক্ষণিক শেয়ারিং প্ল্যাটফর্ম।
+        </p>
+      </div>
+
+      <!-- PRIMARY ACTION CARD: ষ্ট্যাম্প — কর্মীর ও জামিনদারের ফর্ম পূরণ -->
+      <div class="home-action-card-3d">
+        <div class="home-action-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-stamp" style="font-size: 1.4rem;"></i>
+            <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0;">ষ্ট্যাম্প সার্ভিস</h2>
+          </div>
+          <span style="background: rgba(255,255,255,0.25); font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 20px;">১০০ টাকার স্ট্যাম্প</span>
+        </div>
+        <div style="padding: 24px 20px;">
+          <h3 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin-bottom: 8px;">
+            কর্মী ও জামিনদারের ফর্ম পূরণ
+          </h3>
+          <p style="color: #475569; font-size: 0.98rem; line-height: 1.6; margin-bottom: 20px;">
+            নতুন নিয়োগপ্রাপ্ত কর্মীর প্রয়োজনীয় সাধারণ বিবরণ, পদবী, স্থায়ী ঠিকানা এবং জামিনদারের তথ্যাদি পূরণ করে স্বয়ংক্রিয়ভাবে ১০০ টাকার স্ট্যাম্পের ফরম্যাট অনুযায়ী চুক্তিপত্র প্রস্তুত করুন।
+          </p>
+
+          <button type="button" class="btn btn-primary" onclick="showView('form')" style="padding: 14px 28px; font-size: 1.1rem; font-weight: 700; border-radius: 12px; box-shadow: 0 6px 18px rgba(13,110,253,0.35); display: inline-flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-file-signature"></i>
+            <span>ফর্ম পূরণ শুরু করুন</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- OTHER INFORMATION SECTION (অন্যান্য তথ্য) -->
+      <div style="margin-top: 30px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <i class="fa-solid fa-circle-info" style="color: var(--primary); font-size: 1.2rem;"></i>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #1E293B; margin: 0;">অন্যান্য তথ্য ও নির্দেশনা</h3>
+        </div>
+
+        <div class="home-info-grid">
+          <div class="home-info-card" onclick="openInfoModal('stamp')">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(13,110,253,0.1); color: var(--primary); display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-print"></i>
+              </div>
+              <h4 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">১০০ টাকার স্ট্যাম্প নির্দেশিকা</h4>
+            </div>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">
+              ১ম পাতার উপরের অংশে ৪ ইঞ্চি মার্জিন ফাঁকা রেখে ১০০ টাকার নন-জুডিশিয়াল স্ট্যাম্পে লিগাল সাইজ প্রিন্ট করতে হবে।
+            </p>
+          </div>
+
+          <div class="home-info-card" onclick="openInfoModal('org')">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(13,148,136,0.1); color: #0D9488; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-building"></i>
+              </div>
+              <h4 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">সংস্থা পরিচিতি ও কার্যালয়</h4>
+            </div>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">
+              রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ), প্রধান কার্যালয়: আরআরএফ ভবন, সিও অফিস রোড, যশোর।
+            </p>
+          </div>
+
+          <div class="home-info-card" onclick="openTermsPdfModal()">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.1); color: #7C3AED; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-file-pdf"></i>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; flex:1;">
+                <h4 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">চুক্তিপত্রের নিয়মাবলী ও শর্তাবলী</h4>
+                <span style="font-size: 0.7rem; font-weight: 700; color: #7C3AED; background: rgba(124,58,237,0.12); padding: 2px 7px; border-radius: 6px;">অফিসিয়াল PDF</span>
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">
+              অফিসিয়াল PDF ভিউ করুন এবং সরাসরি ডাউনলোড / প্রিন্ট করুন।
+            </p>
+          </div>
+
+          <div class="home-info-card" onclick="openInfoModal('contact')">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(217,119,6,0.1); color: #D97706; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-headset"></i>
+              </div>
+              <h4 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">যোগাযোগ ও হেল্পলাইন</h4>
+            </div>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">
+              যেকোনো কারিগরি বা দাপ্তরিক সহায়তার জন্য আরআরএফ এইচআর হেল্পলাইনে যোগাযোগ করুন।
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 1: FORM (কর্মী ও জামিনদারের ফর্ম পূরণ) -->
+    <section id="formView" class="view-panel">
+
+      <!-- Breadcrumb Navigation -->
+      <div class="home-breadcrumb">
+        <a href="javascript:void(0)" onclick="showView('home')" style="color: var(--primary); text-decoration: none; font-weight: 700;">
+          <i class="fa-solid fa-house"></i> হোম
+        </a>
+        <span style="color: #94A3B8;">›</span>
+        <span style="color: #64748B; font-weight: 600;">ষ্ট্যাম্প</span>
+        <span style="color: #94A3B8;">›</span>
+        <span style="color: #0F172A; font-weight: 700;">কর্মী ও জামিনদার ফর্ম পূরণ</span>
+      </div>
+
+      <!-- Compact 3D Animated Title Banner -->
+      <div class="title-banner-3d">
+        <h2 class="title-text-3d">রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন</h2>
+      </div>
+
+      <form id="agreementForm" onsubmit="handleFormSubmit(event)">
+
+        <!-- ক্রমিক নম্বর ও তারিখ -->
+        <div class="card">
+          <div class="card-header-3d theme-purple">
+            <h2 class="card-title">
+              <span class="card-number-badge" style="color: #4F46E5;"><i class="fa-solid fa-hashtag" style="font-size:0.9rem;"></i></span>
+              <span>সাধারণ তথ্য</span>
+            </h2>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <span id="editModeIndicator" class="badge badge-warning" style="display:none;">এডিট মোড সক্রিয়</span>
+              <button type="button" class="btn btn-light" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 8px; font-weight: 700; color: #4338CA;" onclick="resetForm()">
+                <i class="fa-solid fa-plus"></i> নতুন কর্মী ফরম
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#4F46E5;"></span> ক্রমিক নম্বর (Serial No) <span class="required">*</span></label>
+                <input type="text" id="serialNo" class="form-control" placeholder="উদাঃ RRF-2026-0001" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#4F46E5;"></span> আবেদনের তারিখ <span class="required">*</span></label>
+                <input type="text" id="submissionDate" class="form-control" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- কর্মীর তথ্য -->
+        <div class="card">
+          <div class="card-header-3d theme-blue">
+            <h2 class="card-title">
+              <span class="card-number-badge" style="color: #1553A3;">১</span>
+              <span>কর্মীর তথ্য</span>
+            </h2>
+            <span class="card-badge-pill">আবশ্যক</span>
+          </div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#1553A3;"></span> কর্মীর নাম <span class="required">*</span></label>
+                <input type="text" id="employeeName" class="form-control" placeholder="কর্মীর পূর্ণ নাম" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#1553A3;"></span> পিতার নাম <span class="required">*</span></label>
+                <input type="text" id="employeeFatherName" class="form-control" placeholder="পিতার পূর্ণ নাম" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#1553A3;"></span> পদবি (Designation) <span class="required">*</span></label>
+                <input type="text" id="designation" class="form-control" placeholder="উদাঃ শাখা ব্যবস্থাপক / মাঠ কর্মকর্তা" required>
+              </div>
+            </div>
+
+            <div class="address-subsection-banner">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>কর্মীর বর্তমান ঠিকানা:</span>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#1553A3;"></span> জেলা <span class="required">*</span></label>
+                <select id="employeeDistrict" class="form-control" onchange="populateUpazilas('employee')" required>
+                  <option value="">-- জেলা নির্বাচন করুন --</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#1553A3;"></span> উপজেলা <span class="required">*</span></label>
+                <select id="employeeUpazila" class="form-control" required>
+                  <option value="">-- উপজেলা নির্বাচন করুন --</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#1553A3;"></span> ডাকঘর <span class="required">*</span></label>
+                <input type="text" id="employeePostOffice" class="form-control" placeholder="ডাকঘরের নাম" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#1553A3;"></span> গ্রাম <span class="required">*</span></label>
+                <input type="text" id="employeeVillage" class="form-control" placeholder="গ্রামের নাম" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- জামিনদারের তথ্য -->
+        <div class="card">
+          <div class="card-header-3d theme-emerald">
+            <h2 class="card-title">
+              <span class="card-number-badge" style="color: #0D9488;">২</span>
+              <span>জামিনদারের তথ্য</span>
+            </h2>
+            <span class="card-badge-pill">বাধ্যতামূলক</span>
+          </div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> জামিনদারের নাম <span class="required">*</span></label>
+                <input type="text" id="guarantorName" class="form-control" placeholder="জামিনদারের পূর্ণ নাম" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> জামিনদারের পিতার নাম <span class="required">*</span></label>
+                <input type="text" id="guarantorFatherName" class="form-control" placeholder="পিতার নাম" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> জামিনদারের মাতার নাম <span class="required">*</span></label>
+                <input type="text" id="guarantorMotherName" class="form-control" placeholder="মাতার নাম" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> কর্মীর সহিত সম্পর্ক <span class="required">*</span></label>
+                <select id="guarantorRelationship" class="form-control" onchange="handleRelationshipChange()" required>
+                  <option value="পিতা">পিতা</option>
+                  <option value="মাতা">মাতা</option>
+                  <option value="স্বামী">স্বামী</option>
+                  <option value="স্ত্রী">স্ত্রী</option>
+                  <option value="ভাই">ভাই</option>
+                  <option value="বোন">বোন</option>
+                  <option value="চাচা">চাচা</option>
+                  <option value="মামা">মামা</option>
+                  <option value="অন্যান্য">অন্যান্য</option>
+                </select>
+              </div>
+              <div class="form-group" id="customRelGroup" style="display: none;">
+                <label><span class="label-dot" style="background:#0D9488;"></span> নির্দিষ্ট সম্পর্ক লিখুন <span class="required">*</span></label>
+                <input type="text" id="guarantorRelationshipCustom" class="form-control" placeholder="সম্পর্ক উল্লেখ করুন">
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> ভোটার আইডি / এনআইডি নং (NID) <span class="required">*</span></label>
+                <input type="text" id="guarantorNid" class="form-control" placeholder="১০, ১৩ বা ১৭ ডিজিটের এনআইডি" required>
+              </div>
+            </div>
+
+            <!-- একই ঠিকানা চেকবক্স -->
+            <label class="checkbox-group">
+              <input type="checkbox" id="sameAddressCheckbox" onchange="handleSameAddressToggle()">
+              <span><i class="fa-solid fa-circle-check" style="margin-right: 6px;"></i>কর্মীর স্থায়ী ঠিকানা এবং জামিনদারের বর্তমান ঠিকানা একই</span>
+            </label>
+
+            <div class="address-subsection-banner theme-emerald">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>জামিনদারের বর্তমান ঠিকানা:</span>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> জেলা <span class="required">*</span></label>
+                <select id="guarantorDistrict" class="form-control" onchange="populateUpazilas('guarantor')" required>
+                  <option value="">-- জেলা নির্বাচন করুন --</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> উপজেলা <span class="required">*</span></label>
+                <select id="guarantorUpazila" class="form-control" required>
+                  <option value="">-- উপজেলা নির্বাচন করুন --</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> ডাকঘর <span class="required">*</span></label>
+                <input type="text" id="guarantorPostOffice" class="form-control" placeholder="ডাকঘরের নাম" required>
+              </div>
+              <div class="form-group">
+                <label><span class="label-dot" style="background:#0D9488;"></span> গ্রাম <span class="required">*</span></label>
+                <input type="text" id="guarantorVillage" class="form-control" placeholder="গ্রামের নাম" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- অ্যাকশন বোতাম -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" style="padding: 12px 24px; border-radius: 12px; font-weight: 700; border: 1.5px solid #cbd5e1; background: #fff; color: #475569;" onclick="resetForm()">
+            <i class="fa-solid fa-arrow-rotate-left"></i> রিসেট
+          </button>
+          <button type="submit" class="btn btn-primary" style="padding: 14px 28px; border-radius: 12px; font-size: 1.05rem; font-weight: 700; box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);">
+            <i class="fa-solid fa-floppy-disk"></i> সংরক্ষণ ও প্রিভিউ দেখুন
+          </button>
+        </div>
+
+        <div style="text-align: center; margin-top: 22px;">
+          <button type="button" class="btn btn-outline" style="padding: 9px 22px; font-size: 0.92rem; border-radius: 10px; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94A3B8; background: #ffffff; color: var(--primary); font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.06);" onclick="showView('records')">
+            <i class="fa-solid fa-arrow-left"></i> পূর্বে ফিরে যান
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- VIEW 2: RECORDS LIST -->
+    <section id="recordsView" class="view-panel">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-list-check"></i> সংরক্ষিত জামানতনামার তালিকা</h2>
+          <div>
+            <button class="btn btn-success" onclick="exportToCSV()">
+              <i class="fa-solid fa-file-csv"></i> CSV এক্সপোর্ট
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table" id="recordsTable">
+            <thead>
+              <tr>
+                <th>ক্রমিক নং</th>
+                <th>কর্মীর নাম</th>
+                <th>পদবি</th>
+                <th>জামিনদার</th>
+                <th>সম্পর্ক</th>
+                <th>এনআইডি</th>
+                <th>তারিখ</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="recordsTbody">
+              <!-- Dynamic Rows inserted by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PRINT & PREVIEW MODAL DIALOG -->
+  <div id="printPreviewModal">
+    <div class="preview-modal-dialog">
+      <div class="preview-modal-header">
+        <div>
+          <h3 style="font-weight: 700; color: var(--primary-dark);">৩ পাতার লিগাল স্ট্যাম্প প্রিভিউ</h3>
+          <p style="font-size: 0.85rem; color: #666;">উপরের ৪ ইঞ্চি মার্জিন ১০০ টাকার স্ট্যাম্পের জন্য সম্পূর্ণ ফাঁকা রেখে নিখুঁত ফরম্যাটে সাজানো।</p>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-success" onclick="shareCurrentRecordToWhatsApp()" style="background: #25D366; border-color: #25D366;">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp গ্রুপে শেয়ার
+          </button>
+          <button class="btn btn-primary" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> সরাসরি প্রিন্ট (Ctrl + P)
+          </button>
+          <button class="btn btn-outline" onclick="closePreviewModal()">
+            <i class="fa-solid fa-xmark"></i> বন্ধ করুন
+          </button>
+        </div>
+      </div>
+
+      <!-- Container that gets rendered for printing -->
+      <div class="preview-pages-container" id="printContainer">
+        
+        <!-- PAGE 1: Agreement 1 -->
+        <div class="legal-sheet" id="sheetPage1">
+          <div class="stamp-margin-top"></div>
+          
+          <div class="sheet-header-meta">
+            <div><strong>ক্রমিক নং:</strong> <span class="pv-serial"></span></div>
+            <div><strong>তারিখ:</strong> <span class="pv-date"></span></div>
+          </div>
+
+          <div class="agreement-title">জামানতনামা</div>
+
+          <div class="agreement-body">
+            <p style="text-indent: 30px; margin-bottom: 12px;">
+              আমি <strong><span class="pv-g-name"></span></strong>, পিতা : <span class="pv-g-father"></span>, মাতা : <span class="pv-g-mother"></span>, সম্পর্ক : <span class="pv-g-rel"></span>। ভোটার আইডি নংঃ <strong><span class="pv-g-nid"></span></strong>।
+            </p>
+            <p style="margin-bottom: 12px;">
+              <strong>বর্তমান ঠিকানা :</strong> গ্রাম : <span class="pv-g-village"></span>, ডাকঘর : <span class="pv-g-po"></span>, উপজেলা : <span class="pv-g-upazila"></span>, জেলা : <span class="pv-g-district"></span>।
+            </p>
+            <p style="margin-bottom: 14px;">
+              রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এ <strong><span class="pv-e-desig"></span></strong> পদে নিয়োজিত জনাব <strong><span class="pv-e-name"></span></strong>, পিতাঃ <span class="pv-e-father"></span>। গ্রাম : <span class="pv-e-village"></span>, ডাকঘর : <span class="pv-e-po"></span>, উপজেলা : <span class="pv-e-upazila"></span>, জেলা : <span class="pv-e-district"></span> এর জন্য এবং তাহার পক্ষে সার্বিক দায়-দায়িত্ব স্বীকার করিয়া জামিনদার হিসাবে নিম্নলিখিত শর্তাবলী সাপেক্ষে অঙ্গীকারবদ্ধ হইলাম :
+            </p>
+
+            <div class="terms-heading">শর্তাবলী :-</div>
+
+            <p style="margin-bottom: 14px;">
+              ১। যেহেতু রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন জনাব <span class="pv-e-name"></span> কে <span class="pv-e-desig"></span> পদে চাকুরী প্রদান করিয়াছে সেহেতু আমি জনাব <span class="pv-g-name"></span> এর জন্য জামিনদার বহাল থাকিয়া রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন বরাবরে অত্র জামানত নামা প্রদান করিলাম।
+            </p>
+            <p>
+              ২। রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এ চাকুরীরত থাকাকালীন উল্লেখিত ব্যক্তির কর্তব্যকাজে অবহেলা, ইচ্ছাকৃত ত্রুটি, স্বীয়-স্বার্থ আদায়ের লক্ষ্যে উদ্দেশ্য প্রণোদিতভাবে কোন কার্য সম্পাদন ফৌজদারী বা দেওয়ানী আইনে শাস্তিযোগ্য অপরাধের দ্বারা প্রত্যক্ষ বা পরোক্ষভাবে রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর কোন ক্ষতিসাধন, দেশের প্রচলিত আইন কানুন, নিয়ম শৃঙ্খলা ও বিধি বিধানের পরিপন্থী কোন বে- আইনী বা অনৈতিক কাজে নিজেকে জড়িত করা, রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর প্রাতিষ্ঠানিক বা প্রশাসনিক আইন বা বেআইনী বা নিয়ম শৃঙ্খলা পরিপন্থি কোন কর্মকান্ডে জড়িত হওয়া অথবা প্রত্যক্ষ বা পরোক্ষভাবে রুরাল রিকনস্ট্রাকশন ফাউন্ডেশনের আর্থিক ক্ষতি সাধন করা, ব্যাংক হতে নগদ উত্তোলন বা নগদে অথবা নানাবিধ উপায়ে আর্থিক সুবিধা লাভ করা কিংবা অর্থ আত্নসাৎ করা, রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর কোন স্থাবর বা অস্থাবর সম্পত্তি বিনষ্ট বা হস্তগত করা কিংবা তার ক্ষতি সাধন করা, রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর সুনাম ক্ষুন্ন হইতে পারে এবং রাষ্ট্রবিরোধী কোন কার্যকলাপে জড়িত হওয়া বা প্রত্যক্ষ ও পরোক্ষভাবে ইত্যাদি যে কোন প্রকার কাজে দায়ী বা দোষী হইলে আমি তাহার সকল প্রকার দায় দায়িত্ব নিজে বহন করিব বা করিতে আইনতঃ বাধ্য থাকিব এবং রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এর দাবীকৃত বা আদালত কর্তৃক ঘোষিত ও নির্ধারিত যে কোন অংকের আর্থিক ক্ষতিপূরণ প্রদানে বাধ্য থাকিব।
+            </p>
+          </div>
+
+          <div class="sheet-footer">
+            <div>পাতা : ১ (১ম স্ট্যাম্প)</div>
+            <div>রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)</div>
+          </div>
+        </div>
+
+        <!-- PAGE 2: Agreement 2 (Terms 3, 4, 5) -->
+        <div class="legal-sheet" id="sheetPage2">
+          <div class="stamp-margin-top"></div>
+          
+          <div class="sheet-header-meta">
+            <div><strong>ক্রমিক নং:</strong> <span class="pv-serial"></span></div>
+            <div><strong>কর্মীর নাম:</strong> <span class="pv-e-name"></span></div>
+          </div>
+
+          <div class="agreement-body" style="padding-top: 15px;">
+            <p style="margin-bottom: 22px;">
+              ৩। উল্লেখিত ব্যক্তি সম্পূর্ণ সততা, বিশ্বস্ততা, শৃঙ্খলা ও নিয়মানুবর্তিতার সহিত তাহার উপর অর্পিত দায়িত্ব ও কর্তব্য পালন করিবেন।
+            </p>
+
+            <p style="margin-bottom: 22px;">
+              ৪। আমি জামিনদার হিসাবে আমার দায়িত্ব পালন না করিলে বা দায়িত্ব পালনে কোন প্রকার অনীহা প্রকাশ করিলে কিংবা প্রদত্ত অঙ্গীকার ভঙ্গ করিলে আমার বিরুদ্ধে রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন কর্তৃপক্ষ অত্র জামানতনামা বলে আইন অনুযায়ী যে কোন প্রকার ব্যবস্থা গ্রহণ করিতে পারিবেন এবং সে ক্ষেত্রে আমার কোন প্রকার ওজর আপত্তি সর্ব আদালতে অগ্রাহ্য, বাতিল ও নামঞ্জুর বলিয়া ঘোষিত হইবে।
+            </p>
+
+            <p style="margin-bottom: 22px;">
+              ৫। আমি এই মর্মে অঙ্গীকার ও স্বীকার করিতেছি যে, উল্লেখিত ব্যক্তির যে কোন প্রকার বে আইনী কার্যকলাপ, নিয়মশৃঙ্খলা ও অনৈতিক আচার আচরণের জন্য এবং ২ নং অনুচ্ছেদে বর্ণিত যে কোন কারণে অথবা অর্থ আত্নসাতের দায়ে উল্লেখিত ব্যক্তি দোষী সাব্যস্ত হলে আমি নগদ অর্থে ক্ষতিপূরণ দিতে বাধ্য রহিলাম বা আইনতঃ বাধ্য থাকিব। রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন কর্তৃপক্ষ আমার প্রদত্ত অত্র জামানতনামা বলে আমার যে কোন স্থাবর বা অস্থাবর সম্পত্তি আদালতযোগে উপযুক্ত আইনের আশ্রয়ে বাজেয়াপ্ত ঘোষণা ক্রমে উপরে ঘোষিত টাকার সমপরিমাণ ক্ষতিপূরণ আমার নিকট হইতে আদায় করিতে পারিবেন।
+            </p>
+          </div>
+
+          <div class="sheet-footer">
+            <div>পাতা : ২ (২য় স্ট্যাম্প)</div>
+            <div>রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)</div>
+          </div>
+        </div>
+
+        <!-- PAGE 3: Agreement 3 (Satyapath & Witnesses) -->
+        <div class="legal-sheet" id="sheetPage3">
+          <div class="stamp-margin-top"></div>
+
+          <div class="agreement-title">সত্যপাঠ</div>
+
+          <div class="agreement-body">
+            <p style="text-indent: 30px; margin-bottom: 12px;">
+              আমি উক্ত শর্তাবলী স্বজ্ঞানে, সুস্থ শরীরে এবং কাহারো দ্বারা প্ররোচিত না হইয়া এবং ইহার ভবিষ্যৎ ফলাফল ভাবিয়া চিন্তিয়া, বুঝিয়া-গুনিয়া ও পড়িয়া স্বেচ্ছায় অঙ্গীকারাবদ্ধ হইয়া নিম্নে বর্ণিত সাক্ষীগণের উপস্থিতিতে আমার নাম স্বাক্ষর করিলাম।
+            </p>
+            <p style="margin-bottom: 16px;">
+              তারিখ : <strong><span class="pv-date-bangla"></span></strong> খ্রিষ্টাব্দ।
+            </p>
+
+            <div style="font-weight: 700; font-size: 15pt; text-decoration: underline; margin-bottom: 10px;">
+              স্বাক্ষীগণের স্বাক্ষর
+            </div>
+
+            <table class="witness-table">
+              <tr>
+                <td style="width: 55%;">
+                  <strong>১। স্বাক্ষর :</strong> . . . . . . . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;নাম : . . . . . . . . . . . . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;স্বামী/পিতার নাম : . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;পূর্ণ ঠিকানা : . . . . . . . . . . . . . . . . . . . . . . . .
+                </td>
+                <td style="width: 45%; text-align: center; vertical-align: middle; border: 1px dashed #aaa; padding: 10px;">
+                  <div style="height: 50px;"></div>
+                  <strong>জামিনদারের টিপসহি</strong>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>২। স্বাক্ষর :</strong> . . . . . . . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;নাম : . . . . . . . . . . . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;স্বামী/পিতার নাম : . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;পূর্ণ ঠিকানা : . . . . . . . . . . . . . . . . . . . . . . .
+                </td>
+                <td style="text-align: center; vertical-align: bottom; padding: 10px;">
+                  <div style="margin-bottom: 30px;">. . . . . . . . . . . . . . . . . . . . . . . . .</div>
+                  <strong>জামিনদারের স্বাক্ষর</strong><br>
+                  তারিখঃ . . . . . . . . . . . . . . . . .
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>৩। স্বাক্ষর :</strong> . . . . . . . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;নাম : . . . . . . . . . . . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;স্বামী/পিতার নাম : . . . . . . . . . . . . . . . . .<br>
+                  &nbsp;&nbsp;&nbsp;পূর্ণ ঠিকানা : . . . . . . . . . . . . . . . . . . . . . . .
+                </td>
+                <td style="text-align: center; vertical-align: middle; padding: 10px;">
+                  <div style="margin-bottom: 25px;">. . . . . . . . . . . . . . . . . . . . . . . . .</div>
+                  <strong>এ্যাডভোকেটঃ</strong>
+                </td>
+              </tr>
+            </table>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 25px;">
+              <div id="qrcodeBox" style="padding: 4px; background: white; border: 1px solid #ccc; width: 80px; height: 80px;"></div>
+              <div style="text-align: center; font-size: 11pt;">
+                উল্লেখিত জামিনদার আমার সম্মুখে<br>তার নিজ নাম সই করিয়াছে।
+              </div>
+            </div>
+
+          </div>
+
+          <div class="sheet-footer">
+            <div>পাতা : ৩ (৩য় স্ট্যাম্প)</div>
+            <div>রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    // 64 Bangladesh Districts & Upazilas Data
+    const districtsData = {
+      "যশোর": ["যশোর সদর", "অভয়নগর", "বাঘারপাড়া", "চৌগাছা", "ঝিকরগাছা", "কেশবপুর", "মণিরামপুর", "শার্শা"],
+      "খুলনা": ["খুলনা সদর", "কয়রা", "ডুমুরিয়া", "তেরখাদা", "দাকোপ", "দিঘলিয়া", "পাইকগাছা", "ফুলতলা", "বটিয়াঘাটা", "রূপসা"],
+      "বাগেরহাট": ["বাগেরহাট সদর", "কচুয়া", "চিতলমারী", "ফকিরহাট", "মোংলা", "মোড়েলগঞ্জ", "মোল্লাহাট", "রামপাল", "শরণখোলা"],
+      "চুয়াডাঙ্গা": ["চুয়াডাঙ্গা সদর", "আলমডাঙ্গা", "জীবননগর", "দামুড়হুদা"],
+      "ঝিনাইদহ": ["ঝিনাইদহ সদর", "কালীগঞ্জ", "কোটচাঁদপুর", "মহেশপুর", "শৈলকূপা", "হরিণাকুণ্ডু"],
+      "কুষ্টিয়া": ["কুষ্টিয়া সদর", "কুমারখালী", "খোকসা", "দৌলতপুর", "ভেড়ামারা", "মিরপুর"],
+      "মাগুরা": ["মাগুরা সদর", "মহম্মদপুর", "শালিখা", "শ্রীপুর"],
+      "মেহেরপুর": ["মেহেরপুর সদর", "গাংনী", "মুজিবনগর"],
+      "নড়াইল": ["নড়াইল সদর", "কালিয়া", "লোহাগড়া"],
+      "সাতক্ষীরা": ["সাতক্ষীরা সদর", "আশাশুনি", "কালীগঞ্জ", "কলারোয়া", "দেবহাটা", "শ্যামনগর", "তালা"],
+      "ঢাকা": ["ঢাকা সদর", "ধামরাই", "দোহার", "কেরানীগঞ্জ", "নবাবগঞ্জ", "সাভার", "মিরপুর", "ধানমন্ডি", "গুলশান", "উত্তরা"],
+      "গাজীপুর": ["গাজীপুর সদর", "কালিয়াকৈর", "কালীগঞ্জ", "কাপাসিয়া", "শ্রীপুর", "টঙ্গী"],
+      "নারায়ণগঞ্জ": ["নারায়ণগঞ্জ সদর", "আড়াইহাজার", "বন্দর", "রূপগঞ্জ", "সোনারগাঁও"],
+      "নরসিংদী": ["নরসিংদী সদর", "বেলাবো", "মনোহরদী", "পলাশ", "রায়পুরা", "শিবপুর"],
+      "টাঙ্গাইল": ["টাঙ্গাইল সদর", "কালিহাতী", "ঘাটাইল", "বাসাইল", "ভূঞাপুর", "মির্জাপুর", "মধুপুর", "সখিপুর", "দেলদুয়ার"],
+      "কিশোরগঞ্জ": ["কিশোরগঞ্জ সদর", "অষ্টগ্রাম", "বাজিতপুর", "ভৈরব", "হোসেনপুর", "ইটনা", "করিমগঞ্জ", "কটিয়াদী"],
+      "মানিকগঞ্জ": ["মানিকগঞ্জ সদর", "দৌলতপুর", "ঘিওর", "হরিরামপুর", "সাটুরিয়া", "শিবালয়", "সিংগাইর"],
+      "মুন্সীগঞ্জ": ["মুন্সীগঞ্জ সদর", "গজারিয়া", "লৌহজং", "সিরাজদিখান", "শ্রীনগর", "টংগিবাড়ী"],
+      "ফরিদপুর": ["ফরিদপুর সদর", "আলফাডাঙ্গা", "চরভদ্রাসন", "নগরকান্দা", "বোয়ালমারী", "ভাঙ্গা", "মধুখালী"],
+      "গোপালগঞ্জ": ["গোপালগঞ্জ সদর", "কাশিয়ানী", "কোটালীপাড়া", "টুঙ্গিপাড়া", "মুকসুদপুর"],
+      "মাদারীপুর": ["মাদারীপুর সদর", "কালকিনি", "ডাসার", "রাজৈর", "শিবচর"],
+      "রাজবাড়ী": ["রাজবাড়ী সদর", "কালুখালী", "গোয়ালন্দ", "পাংশা", "বালিয়াকান্দি"],
+      "শরীয়তপুর": ["শরীয়তপুর সদর", "জাজিরা", "ডামুড্যা", "নড়িয়া", "ভেদরগঞ্জ", "গোসাইরহাট"],
+      "চট্টগ্রাম": ["চট্টগ্রাম সদর", "আনোয়ারা", "পটিয়া", "বোয়ালখালী", "চন্দনাইশ", "ফটিকছড়ি", "বাঁশখালী", "মিরসরাই", "রাউজান"],
+      "কক্সবাজার": ["কক্সবাজার সদর", "চকরিয়া", "কুতুবদিয়া", "মহেশখালী", "পেকুয়া", "রামু", "টেকনাফ", "উখিয়া"],
+      "কুমিল্লা": ["কুমিল্লা সদর", "চৌদ্দগ্রাম", "দেবীদ্বার", "দাউদকান্দি", "মুরাদনগর", "লাকসাম", "বরুড়া", "বুড়িচং"],
+      "ব্রাহ্মণবাড়িয়া": ["ব্রাহ্মণবাড়িয়া সদর", "আশুগঞ্জ", "বাঞ্ছারামপুর", "বিজয়নগর", "কসবা", "নবীনগর", "আখাউড়া"],
+      "চাঁদপুর": ["চাঁদপুর সদর", "ফরিদগঞ্জ", "হাইমচর", "হাজীগঞ্জ", "কচুয়া", "মতলব উত্তর", "শাহরাস্তি"],
+      "ফেনী": ["ফেনী সদর", "ছাগলনাইয়া", "দাগনভূঞা", "পরশুরাম", "ফুলগাজী", "সোনাগাজী"],
+      "নোয়াখালী": ["নোয়াখালী সদর", "বেগমগঞ্জ", "চাটখিল", "কোম্পানীগঞ্জ", "হাতিয়া", "সেনবাগ", "সুবর্ণচর"],
+      "লক্ষ্মীপুর": ["লক্ষ্মীপুর সদর", "রায়পুর", "রামগঞ্জ", "রামগতি", "কমলনগর"],
+      "বরিশাল": ["বরিশাল সদর", "বাকেরগঞ্জ", "বাবুগঞ্জ", "উজিরপুর", "বানারীপাড়া", "গৌরনদী", "আগৈলঝাড়া"],
+      "পটুয়াখালী": ["পটুয়াখালী সদর", "বাউফল", "গলাচিপা", "দশমিনা", "কলাপাড়া", "মির্জাগঞ্জ", "দুমকি"],
+      "ভোলা": ["ভোলা সদর", "বোরহানউদ্দিন", "দৌলতখান", "তজুমদ্দিন", "মনপুরা", "লালমোহন", "চরফ্যাশন"],
+      "পিরোজপুর": ["পিরোজপুর সদর", "ভাণ্ডারিয়া", "মঠবাড়িয়া", "নাজিরপুর", "কাউখালী", "নেছারাবাদ"],
+      "বরগুনা": ["বরগুনা সদর", "আমতলী", "বেতাগী", "বামনা", "পাথরঘাটা", "তালতলী"],
+      "ঝালকাঠি": ["ঝালকাঠি সদর", "কাঠালিয়া", "নলছিটি", "রাজাপুর"],
+      "সিলেট": ["সিলেট সদর", "গোলাপগঞ্জ", "বিয়ানীবাজার", "বিশ্বনাথ", "ফেঞ্চুগঞ্জ", "জৈন্তাপুর", "কানাইঘাট"],
+      "মৌলভীবাজার": ["মৌলভীবাজার সদর", "কমলগঞ্জ", "কুলাউড়া", "শ্রীমঙ্গল", "জুড়ী", "বড়লেখা", "রাজনগর"],
+      "হবিগঞ্জ": ["হবিগঞ্জ সদর", "বাহুবল", "চুনারুঘাট", "মাধবপুর", "নবীগঞ্জ", "বানিয়াচং", "লাখাই"],
+      "সুনামগঞ্জ": ["সুনামগঞ্জ সদর", "জগন্নাথপুর", "ছাতক", "তাহিরপুর", "দিরাই", "ধর্মপাশা", "দোয়ারাবাজার"],
+      "রাজশাহী": ["রাজশাহী সদর", "বাঘা", "বাঘমারা", "চারঘাট", "দুর্গাপুর", "গোদাগাড়ী", "মোহনপুর", "পবা", "পুঠিয়া"],
+      "বগুড়া": ["বগুড়া সদর", "আদমদীঘি", "কাহালু", "গাবতলী", "ধুনট", "নন্দীগ্রাম", "শিবগঞ্জ", "শেরপুর", "সোনাতলা"],
+      "পাবনা": ["পাবনা সদর", "ঈশ্বরদী", "আটঘরিয়া", "বেড়া", "ভাঙ্গুড়া", "চাটমোহর", "সুজানগর", "সাঁথিয়া"],
+      "সিরাজগঞ্জ": ["সিরাজগঞ্জ সদর", "বেলকুচি", "কামারখন্দ", "কাজীপুর", "রায়গঞ্জ", "শাহজাদপুর", "তাড়াশ", "উল্লাপাড়া"],
+      "নাটোর": ["নাটোর সদর", "বাগাতিপাড়া", "বড়াইগ্রাম", "গুরুদাসপুর", "লালপুর", "সিংড়া"],
+      "নওগাঁ": ["নওগাঁ সদর", "বদলগাছী", "মহাদেবপুর", "পত্নীতলা", "ধামইরহাট", "মান্দা", "নিয়ামতপুর", "আত্রাই"],
+      "রংপুর": ["রংপুর সদর", "বদরগঞ্জ", "গঙ্গাচড়া", "কাউনিয়া", "মিঠাপুকুর", "পীরগাছা", "পীরগঞ্জ", "তারাগঞ্জ"],
+      "দিনাজপুর": ["দিনাজপুর সদর", "বিরামপুর", "বীরগঞ্জ", "বোচাগঞ্জ", "ফুলবাড়ী", "ঘোড়াঘাট", "হাকিমপুর", "কাহারোল"],
+      "ময়মনসিংহ": ["ময়মনসিংহ সদর", "মুক্তাগাছা", "ফুলবাড়িয়া", "ত্রিশাল", "ভালুকা", "গফরগাঁও", "ঈশ্বরগঞ্জ", "নান্দাইল"],
+      "জামালপুর": ["জামালপুর সদর", "বকশীগঞ্জ", "দেওয়ানগঞ্জ", "ইসলামপুর", "মাদারগঞ্জ", "মেলান্দহ", "সরিষাবাড়ী"]
+    };
+
+    // English to Bangla Digit Converter
+    function toBanglaDigits(num) {
+      if (num === null || num === undefined) return '';
+      const bDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+      return num.toString().replace(/[0-9]/g, w => bDigits[+w]);
+    }
+
+    // Local Storage Keys
+    const STORAGE_KEY = 'RRF_HR_AGREEMENTS_DATA';
+    let currentEditId = null;
+
+    // Load Records from LocalStorage
+    function getStoredRecords() {
+      try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    }
+
+    function saveRecords(records) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+      updateBadge();
+    }
+
+    function updateBadge() {
+      const records = getStoredRecords();
+      document.getElementById('recordCountBadge').textContent = toBanglaDigits(records.length);
+    }
+
+    const defaultLogoSvg = `<svg viewBox="0 0 120 120" width="100%" height="100%" style="display:block;">
+  <circle cx="60" cy="60" r="56" fill="#0D2C54"/>
+  <circle cx="60" cy="60" r="53" fill="#D4AF37"/>
+  <circle cx="60" cy="60" r="50" fill="#FFFFFF"/>
+  <path d="M60,34 C63.5,34 66.8,35.2 69.5,37.3 L74,31 L69,29 L60,32 L51,29 L46,31 L50.5,37.3 C53.2,35.2 56.5,34 60,34 Z" fill="#FBBF24"/>
+  <path d="M60,36 C50,36 42,44 42,54 L78,54 C78,44 70,36 60,36 Z" fill="#FDE68A"/>
+  <path d="M28,68 C34,78 46,84 60,84 C74,84 86,78 92,68 C86,74 74,78 60,78 C46,78 34,74 28,68 Z" fill="#0D2C54"/>
+  <path d="M60,68 C58,55 42,50 36,44 C34,56 46,67 60,68 Z" fill="#2EB872"/>
+  <path d="M60,68 C62,55 78,50 84,44 C86,56 74,67 60,68 Z" fill="#1B8A4E"/>
+  <path d="M59,70 C59,50 56,40 60,30 C64,40 61,50 61,70 Z" fill="#34D399"/>
+  <path d="M60,30 C56,22 60,18 60,18 C60,18 64,22 60,30 Z" fill="#10B981"/>
+  <path d="M24,84 L96,84 L90,98 L60,95 L30,98 Z" fill="#D4AF37"/>
+  <path d="M26,86 L94,86 L89,96 L60,93 L31,96 Z" fill="#0A192F"/>
+  <text x="60" y="93.5" font-family="'Hind Siliguri', sans-serif" font-size="7.5" font-weight="bold" fill="#FBBF24" text-anchor="middle">আরআরএফ</text>
+</svg>`;
+
+    function getActiveLogoMarkup(size = 54) {
+      const uploaded = localStorage.getItem('rrf_uploaded_org_logo');
+      if (uploaded) {
+        return `<img src="${uploaded}" alt="প্রতিষ্ঠানের লোগো" style="width:${size}px; height:${size}px; border-radius:50%; object-fit:contain; display:block;">`;
+      }
+      return `<div style="width:${size}px; height:${size}px; border-radius:50%; overflow:hidden; display:inline-block; vertical-align:middle;">${defaultLogoSvg}</div>`;
+    }
+
+    function refreshAllLogos() {
+      const isCustom = !!localStorage.getItem('rrf_uploaded_org_logo');
+      const navContainer = document.getElementById('navLogoContainer');
+      if (navContainer) navContainer.innerHTML = getActiveLogoMarkup(38);
+
+      const heroContainer = document.getElementById('heroLogoContainer');
+      if (heroContainer) heroContainer.innerHTML = getActiveLogoMarkup(56);
+
+      const formContainer = document.getElementById('formLogoPreviewContainer');
+      if (formContainer) formContainer.innerHTML = getActiveLogoMarkup(58);
+
+      const badge = document.getElementById('logoStatusBadge');
+      const title = document.getElementById('logoStatusTitle');
+      const resetBtn = document.getElementById('btnResetLogo');
+
+      if (isCustom) {
+        if (badge) {
+          badge.className = 'badge badge-success';
+          badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> আপলোডকৃত লোগো সক্রিয়';
+        }
+        if (title) title.innerText = 'আপলোডকৃত প্রতিষ্ঠানের নিজস্ব লোগো সক্রিয় রয়েছে';
+        if (resetBtn) resetBtn.style.display = 'inline-block';
+      } else {
+        if (badge) {
+          badge.className = 'badge badge-primary';
+          badge.innerHTML = '<i class="fa-solid fa-certificate"></i> অফিসিয়াল আরআরএফ লোগো সক্রিয়';
+        }
+        if (title) title.innerText = 'রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ) অফিসিয়াল লোগো';
+        if (resetBtn) resetBtn.style.display = 'none';
+      }
+    }
+
+    function handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        localStorage.setItem('rrf_uploaded_org_logo', e.target.result);
+        refreshAllLogos();
+        alert('প্রতিষ্ঠানের লোগো সফলভাবে আপলোড করা হয়েছে!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetOrgLogo() {
+      localStorage.removeItem('rrf_uploaded_org_logo');
+      const fileInput = document.getElementById('orgLogoFileInput');
+      if (fileInput) fileInput.value = '';
+      refreshAllLogos();
+      alert('ডিফল্ট আরআরএফ লোগো সক্রিয় করা হয়েছে।');
+    }
+
+    // Initialize Page
+    window.addEventListener('DOMContentLoaded', () => {
+      populateDistricts();
+      setupInitialDates();
+      updateBadge();
+      refreshAllLogos();
+    });
+
+    function populateDistricts() {
+      const sortedDistricts = Object.keys(districtsData).sort((a,b) => a.localeCompare(b, 'bn'));
+      const empDistSelect = document.getElementById('employeeDistrict');
+      const gDistSelect = document.getElementById('guarantorDistrict');
+
+      sortedDistricts.forEach(dist => {
+        const opt1 = new Option(dist, dist);
+        const opt2 = new Option(dist, dist);
+        empDistSelect.add(opt1);
+        gDistSelect.add(opt2);
+      });
+    }
+
+    function populateUpazilas(type) {
+      const distSelect = document.getElementById(type === 'employee' ? 'employeeDistrict' : 'guarantorDistrict');
+      const upaSelect = document.getElementById(type === 'employee' ? 'employeeUpazila' : 'guarantorUpazila');
+      const selectedDist = distSelect.value;
+
+      upaSelect.innerHTML = '<option value="">-- উপজেলা নির্বাচন করুন --</option>';
+
+      if (selectedDist && districtsData[selectedDist]) {
+        districtsData[selectedDist].forEach(upa => {
+          upaSelect.add(new Option(upa, upa));
+        });
+      }
+
+      if (type === 'employee' && document.getElementById('sameAddressCheckbox').checked) {
+        handleSameAddressToggle();
+      }
+    }
+
+    function setupInitialDates() {
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+      
+      const dateStr = `${dd}/${mm}/${yyyy}`;
+      document.getElementById('submissionDate').value = dateStr;
+
+      // Auto Generate Serial No if empty
+      const records = getStoredRecords();
+      const nextNum = String(records.length + 1).padStart(4, '0');
+      document.getElementById('serialNo').value = `RRF-${yyyy}-${nextNum}`;
+    }
+
+    function handleRelationshipChange() {
+      const rel = document.getElementById('guarantorRelationship').value;
+      const customGroup = document.getElementById('customRelGroup');
+      if (rel === 'অন্যান্য') {
+        customGroup.style.display = 'block';
+        document.getElementById('guarantorRelationshipCustom').required = true;
+      } else {
+        customGroup.style.display = 'none';
+        document.getElementById('guarantorRelationshipCustom').required = false;
+      }
+    }
+
+    function handleSameAddressToggle() {
+      const isChecked = document.getElementById('sameAddressCheckbox').checked;
+      const gDist = document.getElementById('guarantorDistrict');
+      const gUpa = document.getElementById('guarantorUpazila');
+      const gPo = document.getElementById('guarantorPostOffice');
+      const gVill = document.getElementById('guarantorVillage');
+
+      if (isChecked) {
+        const empDist = document.getElementById('employeeDistrict').value;
+        const empUpa = document.getElementById('employeeUpazila').value;
+        const empPo = document.getElementById('employeePostOffice').value;
+        const empVill = document.getElementById('employeeVillage').value;
+
+        gDist.value = empDist;
+        populateUpazilas('guarantor');
+        gUpa.value = empUpa;
+        gPo.value = empPo;
+        gVill.value = empVill;
+      }
+    }
+
+    // Drawer Navigation Controls
+    function toggleNavDrawer() {
+      const drawer = document.getElementById('appNavDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+      if (drawer && overlay) {
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('active');
+      }
+    }
+
+    function closeNavDrawer() {
+      const drawer = document.getElementById('appNavDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+      if (drawer && overlay) {
+        drawer.classList.remove('open');
+        overlay.classList.remove('active');
+      }
+    }
+
+    function toggleDrawerSubmenu(submenuId) {
+      const el = document.getElementById(submenuId);
+      const arrowId = submenuId === 'drawerStampSubmenu' ? 'drawerStampArrow' : 'drawerInfoArrow';
+      const arrow = document.getElementById(arrowId);
+      if (el) {
+        if (el.style.display === 'none') {
+          el.style.display = 'flex';
+          if (arrow) arrow.className = 'fa-solid fa-chevron-up';
+        } else {
+          el.style.display = 'none';
+          if (arrow) arrow.className = 'fa-solid fa-chevron-down';
+        }
+      }
+    }
+
+    // Switch Views
+    function showView(viewName) {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+      if (viewName === 'home') {
+        const homeEl = document.getElementById('homeView');
+        if (homeEl) homeEl.classList.add('active');
+      } else if (viewName === 'form') {
+        const formEl = document.getElementById('formView');
+        if (formEl) formEl.classList.add('active');
+      } else if (viewName === 'records') {
+        const recEl = document.getElementById('recordsView');
+        if (recEl) {
+          recEl.classList.add('active');
+          renderRecordsTable();
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Info Modals (Stamp, Org, Terms, Contact)
+    function openInfoModal(type) {
+      const modal = document.getElementById('infoModal');
+      const titleEl = document.getElementById('infoModalTitle');
+      const iconEl = document.getElementById('infoModalIcon');
+      const bodyEl = document.getElementById('infoModalBody');
+
+      if (!modal || !titleEl || !iconEl || !bodyEl) return;
+
+      if (type === 'stamp') {
+        titleEl.textContent = '১০০ টাকার স্ট্যাম্প নির্দেশিকা';
+        iconEl.className = 'fa-solid fa-print';
+        iconEl.style.color = '#0D6EFD';
+        bodyEl.innerHTML = `
+          <div style="font-size:0.95rem; line-height:1.7; color:#334155;">
+            <p style="margin-bottom:10px;"><strong>১. স্ট্যাম্পের ধরন:</strong> ৩টি ১০০ টাকার নন-জুডিশিয়াল স্ট্যাম্প অথবা ৩০০ টাকার জুডিশিয়াল স্ট্যাম্পে এই জামানতনামা ও চুক্তিপত্র প্রিন্ট করা যাবে।</p>
+            <p style="margin-bottom:10px;"><strong>২. মার্জিন ও স্পেসিং:</strong> ১ম পাতার উপরের অংশে স্বয়ংক্রিয়ভাবে ঠিক ৪.০ ইঞ্চি মার্জিন ফাঁকা রাখা হয়েছে যাতে স্ট্যাম্পের মনোগ্রাম ও সিল সুরক্ষিত থাকে।</p>
+            <p style="margin-bottom:0;"><strong>৩. কাগজের সাইজ:</strong> প্রিন্ট করার সময় অবশ্যই <strong>Legal (৮.৫ × ১৪ ইঞ্চি)</strong> নির্বাচন করুন এবং স্কেলিং ১০০% রাখুন।</p>
+          </div>
+        `;
+      } else if (type === 'org') {
+        titleEl.textContent = 'সংস্থা পরিচিতি ও কার্যালয়';
+        iconEl.className = 'fa-solid fa-building';
+        iconEl.style.color = '#0D9488';
+        bodyEl.innerHTML = `
+          <div style="font-size:0.95rem; line-height:1.7; color:#334155;">
+            <p style="margin-bottom:8px;"><strong>রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)</strong> ১৯৮২ সালে প্রতিষ্ঠিত একটি জাতীয় পর্যায়ের শীর্ষস্থানীয় উন্নয়ন সংস্থা।</p>
+            <p style="margin-bottom:6px;"><strong>প্রধান কার্যালয়:</strong> আরআরএফ ভবন, সিও অফিস রোড, যশোর-৭৪০০, বাংলাদেশ।</p>
+            <p style="margin-bottom:0;"><strong>কার্যক্রম:</strong> ক্ষুদ্রঅর্থায়ন, মানবসম্পদ উন্নয়ন, শিক্ষা ও স্বাস্থ্য সেবা।</p>
+          </div>
+        `;
+      } else if (type === 'terms') {
+        openTermsPdfModal();
+        return;
+      } else if (type === 'contact') {
+        titleEl.textContent = 'যোগাযোগ ও হেল্পলাইন';
+        iconEl.className = 'fa-solid fa-headset';
+        iconEl.style.color = '#D97706';
+        bodyEl.innerHTML = `
+          <div style="font-size:0.95rem; line-height:1.7; color:#334155;">
+            <p style="margin-bottom:8px;"><strong>আরআরএফ মানবসম্পদ বিভাগ (HR Division):</strong></p>
+            <p style="margin-bottom:4px;"><i class="fa-solid fa-location-dot" style="margin-right:6px; color:#D97706;"></i>আরআরএফ ভবন, সিও অফিস রোড, যশোর-৭৪০০</p>
+            <p style="margin-bottom:4px;"><i class="fa-solid fa-phone" style="margin-right:6px; color:#D97706;"></i>০২৪৭৭৭৬৩৮০১-৩</p>
+            <p style="margin-bottom:4px;"><i class="fa-solid fa-envelope" style="margin-right:6px; color:#D97706;"></i>hr@rrf-bd.org / info@rrf-bd.org</p>
+            <p style="margin-bottom:0;"><i class="fa-solid fa-globe" style="margin-right:6px; color:#D97706;"></i>www.rrf-bd.org</p>
+          </div>
+        `;
+      }
+      modal.style.display = 'flex';
+    }
+
+    function closeInfoModal() {
+      const modal = document.getElementById('infoModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function openAdminModal() {
+      const pass = prompt('অ্যাডমিন পাসওয়ার্ড লিখুন:');
+      if (pass === '39039820') {
+        showView('records');
+      } else if (pass !== null) {
+        alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিয়ে চেষ্টা করুন।');
+      }
+    }
+
+    // Form Submit Handler
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const rel = document.getElementById('guarantorRelationship').value;
+      const customRel = document.getElementById('guarantorRelationshipCustom').value;
+      const effectiveRel = (rel === 'অন্যান্য' && customRel) ? customRel : rel;
+
+      const recordData = {
+        id: currentEditId || Date.now(),
+        serialNo: document.getElementById('serialNo').value.trim(),
+        submissionDate: document.getElementById('submissionDate').value.trim(),
+        employeeName: document.getElementById('employeeName').value.trim(),
+        employeeFatherName: document.getElementById('employeeFatherName').value.trim(),
+        designation: document.getElementById('designation').value.trim(),
+        employeeDistrict: document.getElementById('employeeDistrict').value,
+        employeeUpazila: document.getElementById('employeeUpazila').value,
+        employeePostOffice: document.getElementById('employeePostOffice').value.trim(),
+        employeeVillage: document.getElementById('employeeVillage').value.trim(),
+
+        guarantorName: document.getElementById('guarantorName').value.trim(),
+        guarantorFatherName: document.getElementById('guarantorFatherName').value.trim(),
+        guarantorMotherName: document.getElementById('guarantorMotherName').value.trim(),
+        guarantorRelationship: rel,
+        guarantorRelationshipCustom: customRel,
+        effectiveRelationship: effectiveRel,
+        guarantorNid: document.getElementById('guarantorNid').value.trim(),
+        sameAddress: document.getElementById('sameAddressCheckbox').checked,
+        guarantorDistrict: document.getElementById('guarantorDistrict').value,
+        guarantorUpazila: document.getElementById('guarantorUpazila').value,
+        guarantorPostOffice: document.getElementById('guarantorPostOffice').value.trim(),
+        guarantorVillage: document.getElementById('guarantorVillage').value.trim(),
+        savedAt: new Date().toISOString()
+      };
+
+      let records = getStoredRecords();
+      if (currentEditId) {
+        const index = records.findIndex(r => r.id === currentEditId);
+        if (index !== -1) {
+          records[index] = recordData;
+        }
+      } else {
+        records.unshift(recordData);
+      }
+
+      saveRecords(records);
+      currentEditId = null;
+      document.getElementById('editModeIndicator').style.display = 'none';
+
+      // Open Print Preview Modal directly
+      openPreviewModal(recordData);
+    }
+
+    let currentActiveRecord = null;
+
+    function openPreviewModal(data) {
+      currentActiveRecord = data;
+      // Bind data to Page 1
+      document.querySelectorAll('.pv-serial').forEach(el => el.textContent = data.serialNo);
+      document.querySelectorAll('.pv-date').forEach(el => el.textContent = toBanglaDigits(data.submissionDate));
+      document.querySelector('.pv-date-bangla').textContent = toBanglaDigits(data.submissionDate);
+
+      document.querySelectorAll('.pv-e-name').forEach(el => el.textContent = data.employeeName);
+      document.querySelectorAll('.pv-e-father').forEach(el => el.textContent = data.employeeFatherName);
+      document.querySelectorAll('.pv-e-desig').forEach(el => el.textContent = data.designation);
+      document.querySelectorAll('.pv-e-district').forEach(el => el.textContent = data.employeeDistrict);
+      document.querySelectorAll('.pv-e-upazila').forEach(el => el.textContent = data.employeeUpazila);
+      document.querySelectorAll('.pv-e-po').forEach(el => el.textContent = data.employeePostOffice);
+      document.querySelectorAll('.pv-e-village').forEach(el => el.textContent = data.employeeVillage);
+
+      document.querySelectorAll('.pv-g-name').forEach(el => el.textContent = data.guarantorName);
+      document.querySelectorAll('.pv-g-father').forEach(el => el.textContent = data.guarantorFatherName);
+      document.querySelectorAll('.pv-g-mother').forEach(el => el.textContent = data.guarantorMotherName);
+      document.querySelectorAll('.pv-g-rel').forEach(el => el.textContent = data.effectiveRelationship);
+      document.querySelectorAll('.pv-g-nid').forEach(el => el.textContent = toBanglaDigits(data.guarantorNid));
+      document.querySelectorAll('.pv-g-district').forEach(el => el.textContent = data.guarantorDistrict);
+      document.querySelectorAll('.pv-g-upazila').forEach(el => el.textContent = data.guarantorUpazila);
+      document.querySelectorAll('.pv-g-po').forEach(el => el.textContent = data.guarantorPostOffice);
+      document.querySelectorAll('.pv-g-village').forEach(el => el.textContent = data.guarantorVillage);
+
+      // Update organization logo in print preview
+      document.querySelectorAll('.pv-org-logo-container').forEach(el => {
+        el.innerHTML = getActiveLogoMarkup(36);
+      });
+
+      // Generate QR Code
+      const qrBox = document.getElementById('qrcodeBox');
+      qrBox.innerHTML = '';
+      new QRCode(qrBox, {
+        text: `RRF-HR|${data.serialNo}|${data.employeeName}|${data.guarantorNid}`,
+        width: 72,
+        height: 72,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      document.getElementById('printPreviewModal').style.display = 'block';
+    }
+
+    function closePreviewModal() {
+      document.getElementById('printPreviewModal').style.display = 'none';
+    }
+
+    // Render Table Records
+    function renderRecordsTable() {
+      const records = getStoredRecords();
+      const tbody = document.getElementById('recordsTbody');
+      tbody.innerHTML = '';
+
+      if (records.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 25px; color:#888;">এখনও কোনো এন্ট্রি সংরক্ষণ করা হয়নি।</td></tr>';
+        return;
+      }
+
+      records.forEach(rec => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${rec.serialNo}</strong></td>
+          <td>${rec.employeeName}</td>
+          <td>${rec.designation}</td>
+          <td>${rec.guarantorName}</td>
+          <td><span class="badge badge-info">${rec.effectiveRelationship}</span></td>
+          <td>${toBanglaDigits(rec.guarantorNid)}</td>
+          <td>${toBanglaDigits(rec.submissionDate)}</td>
+          <td>
+            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 0.8rem;" onclick="viewRecord(${rec.id})" title="প্রিন্ট প্রিভিউ">
+              <i class="fa-solid fa-print"></i> প্রিন্ট
+            </button>
+            <button class="btn btn-success" style="padding: 4px 8px; font-size: 0.8rem; background: #25D366; border-color: #25D366;" onclick="shareRecordToWhatsApp(${rec.id})" title="WhatsApp গ্রুপে পাঠান">
+              <i class="fa-brands fa-whatsapp"></i>
+            </button>
+            <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;" onclick="editRecord(${rec.id})" title="এডিট">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem; color: var(--danger);" onclick="deleteRecord(${rec.id})" title="ডিলিট">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function viewRecord(id) {
+      const records = getStoredRecords();
+      const rec = records.find(r => r.id === id);
+      if (rec) {
+        openPreviewModal(rec);
+      }
+    }
+
+    function editRecord(id) {
+      const records = getStoredRecords();
+      const rec = records.find(r => r.id === id);
+      if (!rec) return;
+
+      currentEditId = rec.id;
+      document.getElementById('serialNo').value = rec.serialNo;
+      document.getElementById('submissionDate').value = rec.submissionDate;
+      document.getElementById('employeeName').value = rec.employeeName;
+      document.getElementById('employeeFatherName').value = rec.employeeFatherName;
+      document.getElementById('designation').value = rec.designation;
+
+      document.getElementById('employeeDistrict').value = rec.employeeDistrict;
+      populateUpazilas('employee');
+      document.getElementById('employeeUpazila').value = rec.employeeUpazila;
+      document.getElementById('employeePostOffice').value = rec.employeePostOffice;
+      document.getElementById('employeeVillage').value = rec.employeeVillage;
+
+      document.getElementById('guarantorName').value = rec.guarantorName;
+      document.getElementById('guarantorFatherName').value = rec.guarantorFatherName;
+      document.getElementById('guarantorMotherName').value = rec.guarantorMotherName;
+      document.getElementById('guarantorRelationship').value = rec.guarantorRelationship;
+      document.getElementById('guarantorRelationshipCustom').value = rec.guarantorRelationshipCustom || '';
+      handleRelationshipChange();
+
+      document.getElementById('guarantorNid').value = rec.guarantorNid;
+      document.getElementById('sameAddressCheckbox').checked = rec.sameAddress;
+
+      document.getElementById('guarantorDistrict').value = rec.guarantorDistrict;
+      populateUpazilas('guarantor');
+      document.getElementById('guarantorUpazila').value = rec.guarantorUpazila;
+      document.getElementById('guarantorPostOffice').value = rec.guarantorPostOffice;
+      document.getElementById('guarantorVillage').value = rec.guarantorVillage;
+
+      document.getElementById('editModeIndicator').style.display = 'inline-block';
+      showView('form');
+    }
+
+    function deleteRecord(id) {
+      if (confirm('আপনি কি এই এন্ট্রিটি মুছে ফেলতে চান?')) {
+        let records = getStoredRecords();
+        records = records.filter(r => r.id !== id);
+        saveRecords(records);
+        renderRecordsTable();
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('agreementForm').reset();
+      currentEditId = null;
+      document.getElementById('editModeIndicator').style.display = 'none';
+      setupInitialDates();
+    }
+
+    // Export to Excel / CSV
+    function exportToCSV() {
+      const records = getStoredRecords();
+      if (records.length === 0) {
+        alert('এক্সপোর্ট করার মতো কোনো রেকর্ড নেই!');
+        return;
+      }
+
+      const headers = ["ক্রমিক নং", "আবেদনের তারিখ", "কর্মীর নাম", "পিতার নাম", "পদবি", "জেলা", "উপজেলা", "ডাকঘর", "গ্রাম", "জামিনদারের নাম", "পিতার নাম", "মাতার নাম", "সম্পর্ক", "এনআইডি", "জামিনদারের জেলা", "উপজেলা", "ডাকঘর", "গ্রাম"];
+
+      const rows = records.map(r => [
+        `"${r.serialNo}"`,
+        `"${r.submissionDate}"`,
+        `"${r.employeeName}"`,
+        `"${r.employeeFatherName}"`,
+        `"${r.designation}"`,
+        `"${r.employeeDistrict}"`,
+        `"${r.employeeUpazila}"`,
+        `"${r.employeePostOffice}"`,
+        `"${r.employeeVillage}"`,
+        `"${r.guarantorName}"`,
+        `"${r.guarantorFatherName}"`,
+        `"${r.guarantorMotherName}"`,
+        `"${r.effectiveRelationship}"`,
+        `"${r.guarantorNid}"`,
+        `"${r.guarantorDistrict}"`,
+        `"${r.guarantorUpazila}"`,
+        `"${r.guarantorPostOffice}"`,
+        `"${r.guarantorVillage}"`
+      ]);
+
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\r\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `RRF_HR_Agreements_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Share to WhatsApp Group or Chat
+    function shareCurrentRecordToWhatsApp() {
+      if (currentActiveRecord) {
+        shareRecordToWhatsApp(currentActiveRecord.id);
+      } else {
+        alert('শেয়ার করার জন্য কোনো এন্ট্রি নির্বাচন করা হয়নি।');
+      }
+    }
+
+    function shareRecordToWhatsApp(id) {
+      const records = getStoredRecords();
+      const rec = records.find(r => r.id === id);
+      if (!rec) return;
+
+      const summaryText = 
+`*রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ)*
+*কর্মী জামানতনামা ও চুক্তিপত্র*
+----------------------------------------
+📌 *ক্রমিক নং:* ${rec.serialNo}
+📅 *তারিখ:* ${rec.submissionDate}
+👤 *কর্মীর নাম:* ${rec.employeeName}
+💼 *পদবি:* ${rec.designation}
+👨‍👦 *পিতার নাম:* ${rec.employeeFatherName}
+📍 *কর্মীর ঠিকানা:* গ্রাম: ${rec.employeeVillage}, ডাক: ${rec.employeePostOffice}, উপজেলা: ${rec.employeeUpazila}, জেলা: ${rec.employeeDistrict}
+----------------------------------------
+🛡️ *জামিনদারের নাম:* ${rec.guarantorName} (${rec.effectiveRelationship})
+💳 *এনআইডি নং:* ${rec.guarantorNid}
+📍 *জামিনদারের ঠিকানা:* গ্রাম: ${rec.guarantorVillage}, ডাক: ${rec.guarantorPostOffice}, উপজেলা: ${rec.guarantorUpazila}, জেলা: ${rec.guarantorDistrict}
+----------------------------------------
+✅ ১০০ টাকার ৩টি স্ট্যাম্পে লিগাল সাইজ ফরম্যাটে প্রিন্ট ও সংরক্ষিত।`;
+
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(summaryText)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Terms PDF Modal Handlers
+    function openTermsPdfModal() {
+      const modal = document.getElementById('termsPdfModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeTermsPdfModal() {
+      const modal = document.getElementById('termsPdfModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function downloadConditionsPdf() {
+      const printContents = document.getElementById('termsPdfDocumentContent').innerHTML;
+      const fullHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>RRF_Agreement_Conditions</title>
+  <style>
+    body { font-family: 'SolaimanLipi', Arial, sans-serif; margin: 25px; color: #1E293B; line-height: 1.6; }
+    .doc-page { max-width: 800px; margin: 0 auto; padding: 25px; border: 1px solid #CBD5E1; border-radius: 8px; }
+    h2, h3 { color: #0F53A3; }
+    @media print {
+      @page { size: legal; margin: 15mm; }
+      body { margin: 0; }
+      .doc-page { border: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="doc-page">
+    ${printContents}
+  </div>
+  <script>
+    window.onload = function() { window.print(); };
+  <\/script>
+</body>
+</html>`;
+      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Agreement_Conditions_RRF.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      printConditionsPdf();
+    }
+
+    function printConditionsPdf() {
+      const printContents = document.getElementById('termsPdfDocumentContent').innerHTML;
+      const printWindow = window.open('', '_blank', 'width=900,height=800');
+      printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Agreement Conditions - RRF</title>
+  <style>
+    body { font-family: 'SolaimanLipi', Arial, sans-serif; margin: 20px; color: #0F172A; line-height: 1.6; font-size: 11pt; }
+    .doc-page { max-width: 750px; margin: 0 auto; }
+    @media print {
+      @page { size: legal; margin: 15mm; }
+      body { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="doc-page">
+    ${printContents}
+  </div>
+  <script>
+    window.onload = function() { window.print(); };
+  <\/script>
+</body>
+</html>`);
+      printWindow.document.close();
+    }
+
+    function shareConditionsPdf() {
+      const shareText = `*রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)*\\n*কর্মী নিয়োগ ও চুক্তিপত্রের নির্দেশিকা ও শর্তাবলী (PDF)*\\n\\n১. মূল সনদপত্র ও জামানত সংক্রান্ত বিধিবিধান\\n২. পরিচয়পত্র (ID Card) ও প্রদেয় নথিপত্র (২ কপি ছবি, রক্তের গ্রুপ, NID, টিকা সনদ ও ফি)\\n৩. কর্মস্থল ও বদলি সংক্রান্ত বিধান\\n৪. ৩০০ টাকার নন-জুডিশিয়াল স্ট্যাম্পে জামানতনামা ও ডামি পেপার\\n৫. বিশেষ পদের জন্য প্রযোজ্য অতিরিক্ত শর্তাবলী\\n৬. ডিজিটাল ছবি ও সাক্ষরতার নিয়মাবলী\\n৭. জামিনদারের দায়বদ্ধতা ও আইনগত শর্ত\\n৮. চেয়ারম্যান/কাউন্সিলর প্রত্যয়নপত্র\\n৯. চাকরি হতে ইস্তফা ও ছাড়পত্র\\n১০. প্রাতিষ্ঠানিক শৃংখলা ও আচরণবিধি\\n\\nঅফিসিয়াল PDF কপি আরআরএফ এইচআর পোর্টাল হতে সংগ্রহ করুন।`;
+      const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+  <!-- Info Modal Dialog -->
+  <div id="infoModal" class="modal-overlay" style="display:none; align-items:center; justify-content:center; position:fixed; inset:0; background:rgba(15,23,42,0.6); z-index:3000; padding:16px;">
+    <div style="background:#ffffff; border-radius:18px; max-width:500px; width:100%; box-shadow:0 20px 40px rgba(0,0,0,0.25); border:1.5px solid #E2E8F0; overflow:hidden;">
+      <div style="padding:18px 20px; border-bottom:1px solid #F1F5F9; display:flex; align-items:center; justify-content:space-between; background:#F8FAFC;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <i id="infoModalIcon" class="fa-solid fa-circle-info" style="font-size:1.3rem;"></i>
+          <h3 id="infoModalTitle" style="font-size:1.15rem; font-weight:800; color:#0F172A; margin:0;">তথ্য</h3>
+        </div>
+        <button type="button" onclick="closeInfoModal()" style="border:none; background:transparent; font-size:1.2rem; cursor:pointer; color:#64748B;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="infoModalBody" style="padding:20px;"></div>
+      <div style="padding:12px 20px; background:#F8FAFC; border-top:1px solid #F1F5F9; text-align:right;">
+        <button type="button" class="btn btn-primary" onclick="closeInfoModal()" style="padding:8px 20px; border-radius:8px;">
+          ঠিক আছে
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms PDF Viewer Modal -->
+  <div id="termsPdfModal" class="modal-overlay" style="display:none; align-items:center; justify-content:center; position:fixed; inset:0; background:rgba(15,23,42,0.7); z-index:3000; padding:12px;">
+    <div style="background:#ffffff; border-radius:18px; max-width:850px; width:100%; max-height:92vh; display:flex; flex-direction:column; box-shadow:0 25px 50px -12px rgba(0,0,0,0.35); border:1.5px solid #CBD5E1; overflow:hidden;">
+      <!-- Modal Header / Toolbar -->
+      <div style="padding:14px 20px; border-bottom:1px solid #E2E8F0; display:flex; align-items:center; justify-content:space-between; background:#F8FAFC; flex-wrap:wrap; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(124,58,237,0.12); color:#7C3AED; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">
+            <i class="fa-solid fa-file-pdf"></i>
+          </div>
+          <div>
+            <h3 style="font-size:1.1rem; font-weight:800; color:#0F172A; margin:0;">চুক্তিপত্রের নিয়মাবলী ও শর্তাবলী (PDF)</h3>
+            <span style="font-size:0.75rem; color:#64748B;">Agreement Conditions • Rural Reconstruction Foundation</span>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn btn-primary" onclick="downloadConditionsPdf()" style="padding:7px 14px; font-size:0.85rem; border-radius:8px; display:inline-flex; align-items:center; gap:6px;">
+            <i class="fa-solid fa-download"></i> পিডিএফ ডাউনলোড করুন
+          </button>
+          <button type="button" onclick="printConditionsPdf()" style="padding:7px 12px; font-size:0.85rem; border-radius:8px; border:1px solid #CBD5E1; background:#ffffff; color:#334155; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+            <i class="fa-solid fa-print"></i> প্রিন্ট
+          </button>
+          <button type="button" onclick="shareConditionsPdf()" style="padding:7px 12px; font-size:0.85rem; border-radius:8px; border:none; background:#25D366; color:#ffffff; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+            <i class="fa-brands fa-whatsapp"></i> শেয়ার
+          </button>
+          <button type="button" onclick="closeTermsPdfModal()" style="border:none; background:transparent; font-size:1.25rem; cursor:pointer; color:#64748B; margin-left:6px;">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body / PDF Page Content -->
+      <div style="padding:20px; overflow-y:auto; flex:1; background:#E2E8F0;">
+        <div id="termsPdfDocumentContent" style="background:#ffffff; border-radius:8px; padding:30px; box-shadow:0 4px 15px rgba(0,0,0,0.08); border:1px solid #CBD5E1; max-width:760px; margin:0 auto;">
+          <!-- Document Header -->
+          <div style="text-align:center; border-bottom:2px solid #0F53A3; padding-bottom:14px; margin-bottom:18px;">
+            <div style="width:52px; height:52px; margin:0 auto 8px auto; border-radius:50%; background:rgba(15,83,163,0.1); display:flex; align-items:center; justify-content:center;">
+              <i class="fa-solid fa-landmark" style="font-size:1.7rem; color:#0F53A3;"></i>
+            </div>
+            <h2 style="font-size:1.4rem; font-weight:800; color:#0F53A3; margin:0 0 4px 0;">রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)</h2>
+            <div style="font-size:0.9rem; color:#475569; margin-bottom:10px;">আরআরএফ ভবন, সিও অফিস রোড, যশোর-৭৪০০, বাংলাদেশ</div>
+            <div style="background:#F1F5F9; border:1px solid #CBD5E1; padding:8px 14px; border-radius:6px; display:inline-block;">
+              <span style="font-size:1rem; font-weight:800; color:#0F172A;">কর্মী নিয়োগ, জামানতনামা ও চুক্তিপত্রের নির্দেশিকা ও শর্তাবলী</span>
+              <div style="font-size:0.75rem; color:#64748B; margin-top:2px;">নথি নং: RRF-HR-DOC-2026/COND • কর্মী ও জামিনদারের পালনীয় নির্দেশনাসমূহ</div>
+            </div>
+          </div>
+
+          <!-- Document Clauses -->
+          <div style="font-size:0.92rem; color:#334155; line-height:1.7;">
+            <!-- Clause 1 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">১. মূল সনদপত্র ও জামানত সংক্রান্ত বিধিবিধান:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">সনদ জামানত</span>
+              </div>
+              <p style="margin:0;">
+                চাকুরীতে যোগদানের সময় প্রার্থীর শিক্ষাগত যোগ্যতার সকল মূল সনদপত্র (Original Certificates) আরআরএফ প্রধান কার্যালয় বা সংশ্লিষ্ট বিভাগীয় দপ্তরে জামানত হিসেবে জমা রাখতে হবে। চাকুরির মেয়াদকালে কোনো মূল সনদপত্র ফেরত প্রদান করা হবে না। চাকুরির অবসান বা নিয়মতান্ত্রিক ইস্তফা গ্রহণের পর সমুদয় প্রাতিষ্ঠানিক ও আর্থিক হিসাব নিষ্পত্তি সাপেক্ষে মূল সনদপত্রাদি ফেরত প্রদান করা হবে।
+              </p>
+            </div>
+
+            <!-- Clause 2 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">২. পরিচয়পত্র (ID Card) ও প্রদেয় নথিপত্র সংক্রান্ত নির্দেশিকা:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">নথিপত্র চেকলিস্ট</span>
+              </div>
+              <p style="margin:0 0 6px 0;">কর্মী যোগদানের পূর্বে নিম্নবর্ণিত কাগজপত্রাদি নির্ভুলভাবে সংস্থায় দাখিল করবেন:</p>
+              <ul style="margin:0; padding-left:20px;">
+                <li>সদ্য তোলা ২ কপি ল্যাব প্রিন্ট পাসপোর্ট সাইজের রঙিন ছবি (সাদা বা নীল ব্যাকগ্রাউন্ডযুক্ত)।</li>
+                <li>অনুমোদিত ডায়াগনস্টিক সেন্টার কর্তৃক রক্তের গ্রুপ পরীক্ষার মূল রিপোর্ট।</li>
+                <li>জাতীয় পরিচয়পত্র (NID) / ডিজিটাল স্মার্ট কার্ডের স্পষ্ট সত্যায়িত ফটোকপি।</li>
+                <li>কোভিড-১৯ (COVID-19) টিকা গ্রহণের সনদপত্রের (Vaccine Certificate) স্পষ্ট ফটোকপি।</li>
+                <li>ডিজিটাল আইডি কার্ড প্রস্তুত ও অফিসিয়াল রেজিস্ট্রেশন ফি বাবদ নির্ধারিত নগদ অর্থ।</li>
+              </ul>
+            </div>
+
+            <!-- Clause 3 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">৩. কর্মস্থল ও বদলি সংক্রান্ত বিধান:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">কর্মস্থল বদলি</span>
+              </div>
+              <p style="margin:0;">
+                কর্মী আরআরএফ-এর কর্মএলাকাধীন বাংলাদেশের যেকোনো জেলা, উপজেলা বা প্রত্যন্ত অঞ্চলে দায়িত্ব পালনে বাধ্য থাকবেন। সংস্থার প্রশাসনিক ও প্রাতিষ্ঠানিক প্রয়োজনে যেকোনো শাখায় বদলি আদেশ কার্যকর করার সাথে সাথে নতুন কর্মস্থলে যোগদানের পূর্ণ মানসিকতা ও লিখিত সম্মতি থাকতে হবে।
+              </p>
+            </div>
+
+            <!-- Clause 4 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">৪. স্ট্যাম্প পেপার ও ডামি পেপারের (Dummy Paper) ব্যবহার:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">স্ট্যাম্প নিয়ম</span>
+              </div>
+              <p style="margin:0;">
+                কর্মী জামানতনামা ও চুক্তিপত্রটি সরকার নির্ধারিত ৩০০ টাকার নন-জুডিশিয়াল স্ট্যাম্পে (১০০ টাকার ৩টি স্ট্যাম্পে) সম্পাদিত হতে হবে। স্ট্যাম্পের সরকারি সিল ও মনোগ্রামের নিচে নির্ধারিত ডামি পেপার (Dummy Paper) অনুযায়ী যথাস্থানে প্রিন্ট বা টাইপ করতে হবে যাতে স্ট্যাম্পের মনোগ্রাম অক্ষত থাকে।
+              </p>
+            </div>
+
+            <!-- Clause 5 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">৫. বিশেষ পদের জন্য প্রযোজ্য অতিরিক্ত শর্তাবলী:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">লাইসেন্স ও যোগ্যতা</span>
+              </div>
+              <p style="margin:0;">
+                শাখা ব্যবস্থাপক, সহকারী শাখা ব্যবস্থাপক, মাঠ কর্মকর্তা ইত্যাদি নির্দিষ্ট পদের কর্মীদের মোটরসাইকেল চালনায় পারদর্শী হতে হবে এবং নিজস্ব বা পরিবারের মোটরসাইকেল ব্যবহারের সুযোগসহ বৈধ ড্রাইভিং লাইসেন্স (বা লার্নার লাইসেন্স ও আবেদন রশিদ) প্রদান করতে হবে। প্রযোজ্য ক্ষেত্রে কম্পিউটার দক্ষতা সনদ জমা দিতে হবে।
+              </p>
+            </div>
+
+            <!-- Clause 6 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">৬. ডিজিটাল ছবি ও সাক্ষরতার নিয়মাবলী:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">ডিজিটাল ডাটা</span>
+              </div>
+              <p style="margin:0;">
+                সংস্থার কেন্দ্রীয় ডিজিটাল এইচআর ডাটাবেজে সংরক্ষণের জন্য ডিজিটাল ছবি প্রদান করতে হবে। চুক্তিপত্র ও জামানতনামার প্রতিটি পাতায় কর্মী এবং জামিনদারের স্পষ্ট স্বাক্ষর ও তারিখ প্রদান বাধ্যতামূলক। কোনো প্রকার অস্পষ্টতা বা ঘষামাজা গ্রহণযোগ্য হবে না।
+              </p>
+            </div>
+
+            <!-- Clause 7 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">৭. জামিনদারের (Guarantor) দায়বদ্ধতা ও আইনগত শর্ত:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">আইনগত দায়</span>
+              </div>
+              <p style="margin:0;">
+                কর্মী কর্তৃক গৃহীত বা সংগৃহীত সংস্থার অর্থ, হিসাবের গরমিল, ঋণ আদায়ের অর্থ আত্মসাৎ বা বিনা নোটিশে দায়িত্ব ছেড়ে পলায়নের ক্ষেত্রে ১ম ও ২য় জামিনদার ব্যক্তিগত ও আর্থিকভাবে সম্পূর্ণ দায়বদ্ধ থাকবেন। জামিনদারকে অবশ্যই কর্মীর পিতা/মাতা/স্ত্রী/নিকটাত্মীয় বা সামাজিকভাবে প্রতিষ্ঠিত ব্যক্তি হতে হবে এবং তাদের জাতীয় পরিচয়পত্রের কপি ও ছবি জমা দিতে হবে।
+              </p>
+            </div>
+
+            <!-- Clause 8 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">৮. প্রত্যয়নপত্র (Attestation Certificate) দাখিল:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">ইউপি প্রত্যয়ন</span>
+              </div>
+              <p style="margin:0;">
+                স্থানীয় ইউনিয়ন পরিষদ চেয়ারম্যান বা পৌর কাউন্সিলর কর্তৃক নাগরিকত্ব, চারিত্রিক সনদ ও স্থায়ী ঠিকানার সত্যায়িত প্রত্যয়নপত্রের মূল কপি দাখিল করতে হবে।
+              </p>
+            </div>
+
+            <!-- Clause 9 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">৯. চাকরি হতে ইস্তফা, নোটিশ ও ছাড়পত্র গ্রহণের বিধান:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">ইস্তফা নোটিশ</span>
+              </div>
+              <p style="margin:0;">
+                চাকরি হতে ইস্তফা প্রদান করতে চাইলে ন্যূনতম ১ (এক) মাস পূর্বে লিখিত নোটিশ দাখিল করতে হবে। অন্যথায় ১ মাসের সমপরিমাণ মূল বেতন সংস্থায় জমা প্রদান সাপেক্ষে ছাড়পত্র ও মূল সনদপত্র গ্রহণ করা যাবে।
+              </p>
+            </div>
+
+            <!-- Clause 10 -->
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:14px; margin-bottom:18px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="color:#0F53A3; font-size:1rem;">১০. প্রাতিষ্ঠানিক শৃংখলা, সততা ও আচরণবিধি:</strong>
+                <span style="background:rgba(15,83,163,0.1); color:#0F53A3; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:4px;">আচরণবিধি</span>
+              </div>
+              <p style="margin:0;">
+                সংস্থার ভাবমূর্তি ক্ষুণ্ন হয় এমন কোনো কর্মকাণ্ড, গোপনীয়তা প্রকাশ, অসততা বা অনৈতিক সুবিধার সাথে জড়িত থাকলে কর্মী তাৎক্ষণিক বরখাস্ত হবেন এবং দেশের প্রচলিত আইন অনুযায়ী ব্যবস্থা গ্রহণ করা হবে।
+              </p>
+            </div>
+
+            <!-- Signatures Section -->
+            <div style="border-top:1.5px dashed #CBD5E1; padding-top:24px; margin-top:20px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:30px;">
+                <div style="text-align:center;">
+                  <div style="color:#94A3B8; margin-bottom:4px;">.............................................</div>
+                  <strong style="color:#1E293B; font-size:0.9rem;">কর্মীর স্বাক্ষর ও তারিখ</strong>
+                </div>
+                <div style="text-align:center;">
+                  <div style="color:#94A3B8; margin-bottom:4px;">.............................................</div>
+                  <strong style="color:#1E293B; font-size:0.9rem;">জামিনদারের স্বাক্ষর ও তারিখ</strong>
+                </div>
+              </div>
+              <div style="text-align:center;">
+                <div style="color:#94A3B8; margin-bottom:4px;">....................................................................</div>
+                <strong style="color:#0F172A; font-size:0.95rem;">অনুমোদনে: মানবসম্পদ বিভাগ (HR)</strong>
+                <div style="color:#64748B; font-size:0.85rem;">রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (RRF)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="padding:12px 20px; background:#F8FAFC; border-top:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:0.8rem; color:#64748B;">নথি সাইজ: লিগাল / এ৪ ফরম্যাট</span>
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="btn btn-primary" onclick="downloadConditionsPdf()" style="padding:8px 18px; border-radius:8px;">
+            <i class="fa-solid fa-download"></i> পিডিএফ ডাউনলোড করুন
+          </button>
+          <button type="button" class="btn btn-outline" onclick="closeTermsPdfModal()" style="padding:8px 16px; border-radius:8px;">
+            বন্ধ করুন
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

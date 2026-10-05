@@ -1,9 +1,13 @@
 package com.example.ui.screens
 
+import android.graphics.BitmapFactory
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -13,14 +17,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.AgreementEntity
 import com.example.ui.components.ShareSheetDialog
 import com.example.ui.theme.*
@@ -29,6 +38,7 @@ import com.example.util.BanglaTextValidator
 import com.example.util.PdfGenerator
 import com.example.util.ShareHelper
 import com.example.util.WordDocGenerator
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +97,16 @@ fun AgreementPreviewScreen(
                         ) {
                             Icon(Icons.Default.Edit, contentDescription = "Edit", tint = Color.White)
                         }
+                    }
+                    IconButton(
+                        onClick = {
+                            val pdfFile = PdfGenerator.generateAgreementPdf(context, agreement, useStampMargin)
+                            val caption = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ) - কর্মী জামানতনামা ও চুক্তিপত্র\nক্রমিক নং: ${agreement.serialNo}\nকর্মী: ${agreement.employeeName} (${agreement.designation})\nজামিনদার: ${agreement.guarantorName}\nতারিখ: ${agreement.submissionDate}"
+                            ShareHelper.shareToWhatsApp(context, pdfFile, null, caption)
+                        },
+                        modifier = Modifier.testTag("preview_whatsapp_button")
+                    ) {
+                        Icon(Icons.Default.Send, contentDescription = "WhatsApp গ্রুপে পাঠান", tint = WhatsAppGreen)
                     }
                     IconButton(
                         onClick = { showShareSheet = true },
@@ -319,6 +339,60 @@ fun AgreementPreviewScreen(
                                         )
                                     }
                                 }
+                            } else {
+                                // Official Organization Header with Logo
+                                val logoBitmap = remember(agreement.orgLogoPath) {
+                                    if (agreement.orgLogoPath != null && File(agreement.orgLogoPath).exists()) {
+                                        try {
+                                            BitmapFactory.decodeFile(agreement.orgLogoPath)?.asImageBitmap()
+                                        } catch (_: Exception) {
+                                            null
+                                        }
+                                    } else null
+                                }
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 14.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    if (logoBitmap != null) {
+                                        Surface(
+                                            shape = CircleShape,
+                                            color = Color.White,
+                                            border = BorderStroke(2.dp, StampGold),
+                                            shadowElevation = 3.dp,
+                                            modifier = Modifier.size(54.dp)
+                                        ) {
+                                            Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(3.dp)) {
+                                                Image(
+                                                    bitmap = logoBitmap,
+                                                    contentDescription = "প্রতিষ্ঠানের লোগো",
+                                                    modifier = Modifier.fillMaxSize().clip(CircleShape),
+                                                    contentScale = ContentScale.Fit
+                                                )
+                                            }
+                                        }
+                                        Spacer(Modifier.height(6.dp))
+                                    }
+                                    Text(
+                                        "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ)",
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFF0D2C54),
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Text(
+                                        "কর্মী জামানতনামা ও চুক্তিপত্র পোর্টাল",
+                                        fontSize = 11.5.sp,
+                                        color = Color(0xFF555555),
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 1.dp)
+                                    Spacer(Modifier.height(10.dp))
+                                }
                             }
 
                             Text(
@@ -341,7 +415,7 @@ fun AgreementPreviewScreen(
                                 modifier = Modifier.fillMaxWidth()
                             )
                             Text(
-                                "ভোটার আইডি নংঃ $nid",
+                                "ভোটার আইডি নং : $nid",
                                 fontSize = 12.5.sp,
                                 lineHeight = 19.sp
                             )
@@ -361,7 +435,7 @@ fun AgreementPreviewScreen(
                             Spacer(Modifier.height(8.dp))
 
                             Text(
-                                "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এ ${agreement.designation} পদে নিয়োজিত জনাব ${agreement.employeeName}, পিতাঃ ${agreement.employeeFatherName}।",
+                                "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন এ ${agreement.designation} পদে নিয়োজিত জনাব ${agreement.employeeName}, পিতা : ${agreement.employeeFatherName}।",
                                 fontSize = 12.5.sp,
                                 lineHeight = 19.sp,
                                 textAlign = TextAlign.Justify,
@@ -605,7 +679,7 @@ fun AgreementPreviewScreen(
                                     ) {
                                         Column(horizontalAlignment = Alignment.Start) {
                                             Text(
-                                                "এ্যাডভোকেটঃ",
+                                                "এ্যাডভোকেট :",
                                                 fontSize = 13.sp,
                                                 fontWeight = FontWeight.Normal
                                             )

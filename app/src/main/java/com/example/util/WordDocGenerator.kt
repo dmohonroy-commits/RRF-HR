@@ -156,7 +156,7 @@ object WordDocGenerator {
                         </td>
                         <td style="width: 45%; text-align: right; padding-top: 20px;">
                             <div style="display: inline-block; text-align: left;">
-                                এ্যাডভোকেটঃ
+                                এ্যাডভোকেট :
                             </div>
                         </td>
                     </tr>

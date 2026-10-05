@@ -32,3 +32,16 @@ val AlertRed = Color(0xFFD92534)
 val AlertRedContainer = Color(0xFFFFEBEB)
 val SuccessGreen = Color(0xFF2EB872)
 val StampGold = Color(0xFFD4AF37)
+
+// WhatsApp Brand Colors
+val WhatsAppGreen = Color(0xFF25D366)
+val WhatsAppDarkGreen = Color(0xFF128C7E)
+val WhatsAppContainer = Color(0xFFE8F8F0)
+
+// Vibrant Corporate Palette
+val CorporateBlueGradientStart = Color(0xFF0D2C54)
+val CorporateBlueGradientEnd = Color(0xFF1565C0)
+val PurpleAccent = Color(0xFF6A1B9A)
+val AmberAccent = Color(0xFFFF8F00)
+val SurfaceWarm = Color(0xFFF8FAFC)
+

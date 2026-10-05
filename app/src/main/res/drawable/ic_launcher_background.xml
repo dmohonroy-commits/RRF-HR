@@ -14,15 +14,16 @@
                 android:endX="108"
                 android:endY="108"
                 android:type="linear">
-                <item android:offset="0.0" android:color="#0D2C54" />
-                <item android:offset="1.0" android:color="#1A4A84" />
+                <item android:offset="0.0" android:color="#064E3B" />
+                <item android:offset="0.5" android:color="#0F766E" />
+                <item android:offset="1.0" android:color="#0D9488" />
             </gradient>
         </aapt:attr>
     </path>
-    <!-- Subtle geometric background lines -->
+    <!-- Subtle geometric background lines for professional texture -->
     <path
         android:fillColor="#00000000"
-        android:strokeColor="#18FFFFFF"
-        android:strokeWidth="1.2"
-        android:pathData="M14,14 L94,94 M14,94 L94,14" />
+        android:strokeColor="#22FFFFFF"
+        android:strokeWidth="1.5"
+        android:pathData="M14,14 L94,94 M14,94 L94,14 M54,10 L54,98" />
 </vector>

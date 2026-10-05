@@ -13,4 +13,13 @@ interface AddressDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAddressItem(item: AddressItemEntity)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAddressItems(items: List<AddressItemEntity>)
+
+    @Query("SELECT * FROM address_items ORDER BY district, upazila, name ASC")
+    suspend fun getAllAddressItems(): List<AddressItemEntity>
+
+    @Query("DELETE FROM address_items")
+    suspend fun deleteAllAddressItems()
 }
