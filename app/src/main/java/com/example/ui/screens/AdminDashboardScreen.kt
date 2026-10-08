@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -200,7 +201,7 @@ fun AdminDashboardScreen(
                         onClick = onLogout,
                         modifier = Modifier.testTag("admin_logout_btn")
                     ) {
-                        Icon(Icons.Default.Logout, contentDescription = "Logout", tint = Color(0xFF059669))
+                        Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Logout", tint = Color(0xFF059669))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

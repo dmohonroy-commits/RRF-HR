@@ -107,5 +107,8 @@ data class AgreementEntity(
         get() = "${baseFileName}_১০০টাকা_স্ট্যাম্প"
 
     val stamp25FileName: String
-        get() = "${baseFileName}_২৫টাকা_স্ট্যাম্প"
+        get() = "${baseFileName}_২৫টাকা_প্রত্যয়ন"
+
+    val verificationFileName: String
+        get() = "${baseFileName}_তথ্য_যাচাই_ফরম"
 }

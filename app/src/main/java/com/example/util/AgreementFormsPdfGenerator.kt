@@ -1931,7 +1931,9 @@ object AgreementFormsPdfGenerator {
         drawVerificationPage2(page.canvas, form)
         pdfDocument.finishPage(page)
 
-        val file = File(context.cacheDir, "Worker_Neighbors_1_and_2_Certification.pdf")
+        val empName = pInfo?.employeeNameBangla?.trim()?.ifBlank { "কর্মীর_নাম" } ?: "কর্মীর_নাম"
+        val safeName = empName.replace("[/\\\\:*?\"<>|]".toRegex(), "").replace("\\s+".toRegex(), "_")
+        val file = File(context.cacheDir, "${safeName}_তথ্য_যাচাই_ফরম.pdf")
         if (file.exists()) file.delete()
         FileOutputStream(file).use { fos ->
             pdfDocument.writeTo(fos)

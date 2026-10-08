@@ -209,7 +209,18 @@ object Attestation25TkPdfGenerator {
             document.finishPage(page)
         }
 
-        val outputFile = File(context.cacheDir, "RRF_25_Taka_Stamp_Attestation.pdf")
+        val baseName = if (stampAgr != null) {
+            stampAgr.stamp25FileName
+        } else {
+            val empName = allForms.personalInfoForm.employeeNameBangla.trim()
+                .ifBlank { allForms.idCardForm.employeeName.trim() }
+                .ifBlank { "কর্মীর_নাম" }
+            val safeName = empName.replace("[/\\\\:*?\"<>|]".toRegex(), "").replace("\\s+".toRegex(), "_")
+            "${safeName}_২৫টাকা_প্রত্যয়ন"
+        }
+
+        val outputFile = File(context.cacheDir, "${baseName}.pdf")
+        if (outputFile.exists()) outputFile.delete()
         FileOutputStream(outputFile).use { out ->
             document.writeTo(out)
         }

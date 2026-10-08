@@ -438,7 +438,34 @@ fun ShareSheetDialog(
                 ) {
                     Icon(Icons.Default.Language, contentDescription = null, tint = Color(0xFF059669))
                     Spacer(Modifier.width(8.dp))
-                    Text("রেসপন্সিভ HTML ফাইল (ফোন ও ল্যাপটপে দেখুন)", color = Color(0xFF059669), fontWeight = FontWeight.Bold)
+                    Text("সম্পূর্ণ HTML প্যাকেজ (ফোন ও ল্যাপটপে দেখুন)", color = Color(0xFF059669), fontWeight = FontWeight.Bold)
+                }
+
+                Spacer(Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = {
+                            val stamp25Html = HtmlExporter.exportStamp25ToHtml(context, agreement)
+                            ShareHelper.openFile(context, stamp25Html)
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("২৫টাকা HTML", fontSize = 11.5.sp, color = Color(0xFF1E3A8A))
+                    }
+
+                    OutlinedButton(
+                        onClick = {
+                            val verifHtml = HtmlExporter.exportVerificationToHtml(context, agreement)
+                            ShareHelper.openFile(context, verifHtml)
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("তথ্য যাচাই HTML", fontSize = 11.5.sp, color = Color(0xFF059669))
+                    }
                 }
             }
         },
