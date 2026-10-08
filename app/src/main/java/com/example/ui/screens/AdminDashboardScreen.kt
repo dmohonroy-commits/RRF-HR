@@ -675,6 +675,23 @@ fun AdminDashboardScreen(
 
                         Spacer(Modifier.height(6.dp))
 
+                        Button(
+                            onClick = {
+                                val htmlFile = HtmlExporter.exportFullWebAppPortal(context, agreements)
+                                ShareHelper.openFile(context, htmlFile)
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669)),
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp),
+                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
+                        ) {
+                            Icon(Icons.Default.Language, contentDescription = null, Modifier.size(16.dp), tint = Color.White)
+                            Spacer(Modifier.width(6.dp))
+                            Text("🌐 অ্যাপের ফুল ওয়েব ভার্সন পোর্টাল (HTML) তৈরি ও অপেন করুন", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        }
+
+                        Spacer(Modifier.height(6.dp))
+
                         OutlinedButton(
                             onClick = {
                                 if (agreements.isEmpty()) {

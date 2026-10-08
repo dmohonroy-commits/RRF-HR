@@ -39,6 +39,7 @@ fun AppDrawerContent(
     onOpenTermsInfo: () -> Unit,
     onOpenGuidelines: () -> Unit = {},
     onOpenCloudFunctions: () -> Unit = {},
+    onOpenWebPortal: () -> Unit = {},
     onOpenContactInfo: () -> Unit,
     onCloseDrawer: () -> Unit
 ) {
@@ -186,7 +187,21 @@ fun AppDrawerContent(
 
                 Spacer(Modifier.height(8.dp))
 
-                // 7. Contact Info
+                // 7. Web App Version Portal
+                DrawerItemButton(
+                    icon = Icons.Default.Language,
+                    title = "ওয়েব ভার্সন পোর্টাল (HTML)",
+                    selected = false,
+                    testTag = "drawer_item_web_portal",
+                    onClick = {
+                        onCloseDrawer()
+                        onOpenWebPortal()
+                    }
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                // 8. Contact Info
                 DrawerItemButton(
                     icon = Icons.Default.SupportAgent,
                     title = "যোগাযোগ ও হেল্পলাইন",

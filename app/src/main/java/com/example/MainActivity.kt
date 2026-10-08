@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.example.ui.AppScreen
 import com.example.ui.MainViewModel
 import com.example.ui.components.AdminLoginDialog
@@ -102,6 +103,7 @@ fun RrfApp(viewModel: MainViewModel) {
     val use100TkStampMargin by viewModel.use100TkStampMargin.collectAsState()
     val allAgreementForms by viewModel.allAgreementForms.collectAsState()
 
+    val context = LocalContext.current
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
@@ -179,6 +181,11 @@ fun RrfApp(viewModel: MainViewModel) {
                 onOpenCloudFunctions = {
                     coroutineScope.launch { drawerState.close() }
                     viewModel.updateScreen(AppScreen.CLOUD_FUNCTIONS)
+                },
+                onOpenWebPortal = {
+                    coroutineScope.launch { drawerState.close() }
+                    val htmlFile = com.example.util.HtmlExporter.exportFullWebAppPortal(context, allAgreements)
+                    com.example.util.ShareHelper.openFile(context, htmlFile)
                 },
                 onOpenContactInfo = { showContactInfoDialog = true },
                 onCloseDrawer = {

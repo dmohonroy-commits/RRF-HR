@@ -582,6 +582,80 @@ fun HomeScreen(
                 Spacer(Modifier.height(2.dp))
 
                 // =========================================================
+                // WEB VERSION PORTAL CARD
+                // =========================================================
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color(0xFF059669),
+                    border = BorderStroke(1.2.dp, Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.6f), Color.White.copy(alpha = 0.2f)))),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .shadow(8.dp, RoundedCornerShape(12.dp))
+                        .clickable {
+                            val allAgreementsList = viewModel.allAgreements.value
+                            val htmlFile = com.example.util.HtmlExporter.exportFullWebAppPortal(context, allAgreementsList)
+                            com.example.util.ShareHelper.openFile(context, htmlFile)
+                        }
+                        .testTag("btn_home_web_portal")
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                Brush.verticalGradient(
+                                    listOf(
+                                        Color(0xFF059669),
+                                        Color(0xFF047857)
+                                    )
+                                )
+                            )
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Surface(
+                                shape = CircleShape,
+                                color = Color.White.copy(alpha = 0.2f),
+                                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)),
+                                modifier = Modifier.size(36.dp)
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Default.Language,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+                            }
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "🌐 অ্যাপের ওয়েব ভার্সন (HTML Web App)",
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "মোবাইল ও ল্যাপটপের জন্য পূর্ণাঙ্গ ওয়েব পোর্টেলে রূপান্তর করুন",
+                                    fontSize = 11.sp,
+                                    color = Color.White.copy(alpha = 0.9f)
+                                )
+                            }
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(2.dp))
+
+                // =========================================================
                 // CONTACT & HELPLINE REAL GLASS CARD
                 // =========================================================
                 Surface(
