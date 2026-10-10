@@ -664,8 +664,8 @@ fun PersonalInfoFormScreen(
                         // Bottom Next Page Button with Arrow
                         Card(
                             shape = RoundedCornerShape(12.dp),
-                            colors = CardDefaults.cardColors(containerColor = if (isDark) Color(0xFF064E3B).copy(alpha = 0.4f) else Color(0xFFECFDF5)),
-                            border = BorderStroke(1.5.dp, if (isDark) Color(0xFF059669) else Color(0xFF10B981)),
+                            colors = CardDefaults.cardColors(containerColor = if (isDark) Color(0xFF0F3B7E).copy(alpha = 0.15f) else Color(0xFFF0F7FF)),
+                            border = BorderStroke(1.5.dp, Color(0xFF0F3B7E)),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
@@ -682,7 +682,7 @@ fun PersonalInfoFormScreen(
                                 }
                                 Surface(
                                     shape = CircleShape,
-                                    color = Color(0xFF059669),
+                                    color = Color(0xFF0F3B7E),
                                     modifier = Modifier.size(36.dp)
                                 ) {
                                     Box(contentAlignment = Alignment.Center) {
@@ -723,7 +723,7 @@ fun PersonalInfoFormScreen(
                                 onClick = {
                                     handleSaveAndNext()
                                 },
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669)),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F3B7E)),
                                 shape = RoundedCornerShape(12.dp),
                                 modifier = Modifier.weight(1.3f).height(48.dp)
                             ) {
@@ -2187,7 +2187,7 @@ fun Page2EducationExperience(
                     modifier = Modifier.padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF059669), modifier = Modifier.size(20.dp))
+                    Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF0F3B7E), modifier = Modifier.size(20.dp))
                     Spacer(Modifier.width(8.dp))
                     Text(
                         text = "কোনো প্রশিক্ষণ তথ্য নেই চিহ্নিত করা হয়েছে। ছকটি হাইড করা হয়েছে (পিডিএফ ফরম্যাটে ছকটি অপরিবর্তিত থাকবে)।",
@@ -2454,7 +2454,7 @@ fun Page3FamilyGuarantor(
         Surface(
             shape = RoundedCornerShape(10.dp),
             color = if (isDarkG) Color(0xFF064E3B).copy(alpha = 0.35f) else Color(0xFFF0FDF4),
-            border = BorderStroke(1.dp, if (isDarkG) Color(0xFF059669) else Color(0xFF86EFAC)),
+            border = BorderStroke(1.dp, if (isDarkG) Color(0xFF0F3B7E) else Color(0xFFBFDBFE)),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {

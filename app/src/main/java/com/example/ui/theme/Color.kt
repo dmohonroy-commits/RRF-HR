@@ -2,12 +2,29 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Navy Blue Palette
-val NavyPrimary = Color(0xFF0D2C54)
-val NavyDark = Color(0xFF061830)
-val NavyLight = Color(0xFF1E4273)
-val NavyContainer = Color(0xFFDCE7F7)
-val OnNavyContainer = Color(0xFF071C38)
+// Glossy 3D Pearl Glassmorphic Palette (Matching user screenshot)
+val GlassPearlBgStart = Color(0xFFEFF2F5)
+val GlassPearlBgMid = Color(0xFFE2E7EC)
+val GlassPearlBgEnd = Color(0xFFD8DEE4)
+
+val GlassCardSurfaceStart = Color(0xFFFFFFFF)
+val GlassCardSurfaceEnd = Color(0xFFE8EEF3)
+val GlassStrokeGloss = Color(0xFFFFFFFF)
+val GlassStrokeSubtle = Color(0x80FFFFFF)
+
+val GlassTextPrimary = Color(0xFF0F172A)
+val GlassTextSecondary = Color(0xFF475569)
+val GlassAccentCyan = Color(0xFF0EA5E9)
+val GlassAccentBlue = Color(0xFF2563EB)
+
+// Vibrant Electric Royal Blue Palette
+val NavyPrimary = Color(0xFF0033A0)
+val NavyDark = Color(0xFF002280)
+val NavyLight = Color(0xFF0044E0)
+val NavyVibrant = Color(0xFF0038B8)
+val NavyUltraDark = Color(0xFF001A60)
+val NavyContainer = Color(0xFFD6E4FF)
+val OnNavyContainer = Color(0xFF001040)
 
 // Light Green Palette
 val LightGreenPrimary = Color(0xFF2EB872)

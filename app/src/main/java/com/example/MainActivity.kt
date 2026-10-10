@@ -137,7 +137,8 @@ fun RrfApp(viewModel: MainViewModel) {
             }
             AppScreen.AGREEMENT_CONDITIONS,
             AppScreen.APP_GUIDELINES,
-            AppScreen.CLOUD_FUNCTIONS -> {
+            AppScreen.CLOUD_FUNCTIONS,
+            AppScreen.WEB_PORTAL -> {
                 viewModel.updateScreen(AppScreen.HOME)
             }
             AppScreen.AGREEMENTS_HUB -> {
@@ -184,8 +185,7 @@ fun RrfApp(viewModel: MainViewModel) {
                 },
                 onOpenWebPortal = {
                     coroutineScope.launch { drawerState.close() }
-                    val htmlFile = com.example.util.HtmlExporter.exportFullWebAppPortal(context, allAgreements)
-                    com.example.util.ShareHelper.openFile(context, htmlFile)
+                    viewModel.updateScreen(AppScreen.WEB_PORTAL)
                 },
                 onOpenContactInfo = { showContactInfoDialog = true },
                 onCloseDrawer = {
@@ -366,6 +366,14 @@ fun RrfApp(viewModel: MainViewModel) {
             AppScreen.CLOUD_FUNCTIONS -> {
                 CloudFunctionsScreen(
                     viewModel = viewModel,
+                    onBack = { viewModel.updateScreen(AppScreen.HOME) }
+                )
+            }
+
+            AppScreen.WEB_PORTAL -> {
+                com.example.ui.screens.WebPortalScreen(
+                    viewModel = viewModel,
+                    agreements = allAgreements,
                     onBack = { viewModel.updateScreen(AppScreen.HOME) }
                 )
             }

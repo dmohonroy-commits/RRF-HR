@@ -242,7 +242,7 @@ fun AppGuidelinesScreen(
                 title = "৯. পিডিএফ প্রিন্ট, ডাউনলোড ও হোয়াটসঅ্যাপ শেয়ার",
                 subtitle = "এক ক্লিকে সকল ফরম প্রস্তুত",
                 icon = Icons.Default.Share,
-                primaryColor = Color(0xFF059669),
+                primaryColor = Color(0xFF0F3B7E),
                 visualBadge = "প্রিন্ট ও শেয়ার",
                 bulletPoints = listOf(
                     "হোম পেজে 'স্ট্যাম্প প্রিন্ট' অপশনে চাপ দিয়ে ১০০ টাকা ও ২৫ টাকার স্ট্যাম্প প্রিন্ট করুন।",

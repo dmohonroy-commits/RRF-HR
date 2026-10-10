@@ -281,15 +281,15 @@ object AppGuidelinesPdfGenerator {
         y += 12f
 
         // Contact Helpline Box
-        paint.color = Color.parseColor("#ECFDF5")
+        paint.color = Color.parseColor("#F0F7FF")
         canvas.drawRoundRect(left, y, right, y + 42f, 8f, 8f, paint)
-        paint.color = Color.parseColor("#059669")
+        paint.color = Color.parseColor("#0033A0")
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 1f
         canvas.drawRoundRect(left, y, right, y + 42f, 8f, 8f, paint)
         paint.style = Paint.Style.FILL
 
-        paint.color = Color.parseColor("#065F46")
+        paint.color = Color.parseColor("#0A2540")
         paint.textSize = 9.5f
         paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         canvas.drawText("জরুরি সহায়তা ও হেল্পলাইন: মানবসম্পদ বিভাগ, আরআরএফ। ফোন: ০২৪৭৭৭৬৩৪৭৫, ০১৭৩৩-৩৩৩২০২", left + 12f, y + 18f, paint)

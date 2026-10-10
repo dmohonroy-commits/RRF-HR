@@ -791,17 +791,17 @@ fun ClearFormButton(
     ) {
         OutlinedButton(
             onClick = { showConfirmDialog = true },
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF059669)),
-            border = BorderStroke(1.2.dp, Color(0xFF059669)),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF0033A0)),
+            border = BorderStroke(1.2.dp, Color(0xFF0033A0)),
             shape = RoundedCornerShape(8.dp),
             contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
             modifier = Modifier
                 .height(36.dp)
                 .testTag("btn_clear_form")
         ) {
-            Icon(Icons.Default.DeleteSweep, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFF059669))
+            Icon(Icons.Default.DeleteSweep, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFF0033A0))
             Spacer(Modifier.width(5.dp))
-            Text("মুছুন", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = Color(0xFF059669))
+            Text("মুছুন", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = Color(0xFF0033A0))
         }
     }
 
@@ -823,7 +823,7 @@ fun ClearFormButton(
                         showConfirmDialog = false
                         onClear()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669))
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0033A0))
                 ) {
                     Text("হ্যাঁ, মুছুন")
                 }
@@ -1584,7 +1584,7 @@ fun PulsingSaveButton(
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isReady) Color(0xFF059669) else Color(0xFF64748B)
+            containerColor = if (isReady) Color(0xFF0033A0) else Color(0xFF64748B)
         ),
         shape = RoundedCornerShape(12.dp),
         modifier = modifier

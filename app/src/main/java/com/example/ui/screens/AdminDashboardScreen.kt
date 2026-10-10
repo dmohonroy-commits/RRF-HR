@@ -146,7 +146,7 @@ fun AdminDashboardScreen(
                             text = "RRF HR অ্যাডমিন প্যানেল",
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
-                            color = Color(0xFF059669)
+                            color = Color(0xFF0F3B7E)
                         )
                         Text(
                             text = "মোট সংরক্ষিত এগ্রিমেন্ট: $totalCount টি",
@@ -166,10 +166,10 @@ fun AdminDashboardScreen(
                             CircularProgressIndicator(
                                 modifier = Modifier.size(20.dp),
                                 strokeWidth = 2.dp,
-                                color = Color(0xFF059669)
+                                color = Color(0xFF0F3B7E)
                             )
                         } else {
-                            Icon(Icons.Default.CloudDownload, contentDescription = "JSON Backup Export", tint = Color(0xFF059669))
+                            Icon(Icons.Default.CloudDownload, contentDescription = "JSON Backup Export", tint = Color(0xFF0F3B7E))
                         }
                     }
                     IconButton(
@@ -182,7 +182,7 @@ fun AdminDashboardScreen(
                         },
                         modifier = Modifier.testTag("admin_top_import_json_btn")
                     ) {
-                        Icon(Icons.Default.CloudUpload, contentDescription = "JSON Backup Import/Restore", tint = Color(0xFF059669))
+                        Icon(Icons.Default.CloudUpload, contentDescription = "JSON Backup Import/Restore", tint = Color(0xFF0F3B7E))
                     }
                     IconButton(
                         onClick = {
@@ -195,18 +195,18 @@ fun AdminDashboardScreen(
                         },
                         modifier = Modifier.testTag("admin_export_excel_btn")
                     ) {
-                        Icon(Icons.Default.TableChart, contentDescription = "Excel Export", tint = Color(0xFF059669))
+                        Icon(Icons.Default.TableChart, contentDescription = "Excel Export", tint = Color(0xFF0F3B7E))
                     }
                     IconButton(
                         onClick = onLogout,
                         modifier = Modifier.testTag("admin_logout_btn")
                     ) {
-                        Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Logout", tint = Color(0xFF059669))
+                        Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Logout", tint = Color(0xFF0F3B7E))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFE8F5E9),
-                    titleContentColor = Color(0xFF059669)
+                    containerColor = Color(0xFFF0F7FF),
+                    titleContentColor = Color(0xFF0F3B7E)
                 )
             )
         },
@@ -363,13 +363,13 @@ fun AdminDashboardScreen(
                                             Spacer(Modifier.height(2.dp))
                                             Surface(
                                                 shape = RoundedCornerShape(8.dp),
-                                                color = if (isSelected) Color.White.copy(alpha = 0.25f) else Color(0xFFE8F5E9)
+                                                color = if (isSelected) Color.White.copy(alpha = 0.25f) else Color(0xFFF0F7FF)
                                             ) {
                                                 Text(
                                                     "${BanglaTextValidator.toBanglaDigits(count.toString())} টি ফরম",
                                                     fontSize = 11.sp,
                                                     fontWeight = FontWeight.Bold,
-                                                    color = if (isSelected) Color.White else Color(0xFF059669),
+                                                    color = if (isSelected) Color.White else Color(0xFF0F3B7E),
                                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                                 )
                                             }
@@ -675,23 +675,6 @@ fun AdminDashboardScreen(
 
                         Spacer(Modifier.height(6.dp))
 
-                        Button(
-                            onClick = {
-                                val htmlFile = HtmlExporter.exportFullWebAppPortal(context, agreements)
-                                ShareHelper.openFile(context, htmlFile)
-                            },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669)),
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(8.dp),
-                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
-                        ) {
-                            Icon(Icons.Default.Language, contentDescription = null, Modifier.size(16.dp), tint = Color.White)
-                            Spacer(Modifier.width(6.dp))
-                            Text("🌐 অ্যাপের ফুল ওয়েব ভার্সন পোর্টাল (HTML) তৈরি ও অপেন করুন", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                        }
-
-                        Spacer(Modifier.height(6.dp))
-
                         OutlinedButton(
                             onClick = {
                                 if (agreements.isEmpty()) {
@@ -705,9 +688,9 @@ fun AdminDashboardScreen(
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 6.dp)
                         ) {
-                            Icon(Icons.Default.Language, contentDescription = null, Modifier.size(14.dp), tint = Color(0xFF059669))
+                            Icon(Icons.Default.Language, contentDescription = null, Modifier.size(14.dp), tint = Color(0xFF0F3B7E))
                             Spacer(Modifier.width(6.dp))
-                            Text("রেসপন্সিভ HTML ওয়েব রিপোর্ট (ফোন ও ল্যাপটপে ব্রাউজারে দেখুন)", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF059669))
+                            Text("রেসপন্সিভ HTML ওয়েব রিপোর্ট (ফোন ও ল্যাপটপে ব্রাউজারে দেখুন)", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color(0xFF0F3B7E))
                         }
                     }
                 }
@@ -947,7 +930,7 @@ fun AdminDashboardScreen(
                 Icon(
                     Icons.Default.CheckCircle,
                     contentDescription = null,
-                    tint = Color(0xFF059669),
+                    tint = Color(0xFF0F3B7E),
                     modifier = Modifier.size(36.dp)
                 )
             },
@@ -956,7 +939,7 @@ fun AdminDashboardScreen(
                     "JSON ব্যাকআপ সফল হয়েছে!",
                     fontWeight = FontWeight.Bold,
                     fontSize = 17.sp,
-                    color = Color(0xFF059669)
+                    color = Color(0xFF0F3B7E)
                 )
             },
             text = {
@@ -980,7 +963,7 @@ fun AdminDashboardScreen(
                             Text(
                                 "ফাইলটি ডিভাইসের Downloads/RRF_HR_Forms ফোল্ডারে সেভ রয়েছে।",
                                 fontSize = 11.sp,
-                                color = Color(0xFF059669),
+                                color = Color(0xFF0F3B7E),
                                 fontWeight = FontWeight.SemiBold
                             )
                         }
@@ -992,7 +975,7 @@ fun AdminDashboardScreen(
                     onClick = {
                         ShareHelper.shareFile(context, result.file, "RRF HR সম্পূর্ণ JSON ব্যাকআপ")
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669))
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F3B7E))
                 ) {
                     Icon(Icons.Default.Share, contentDescription = null, Modifier.size(16.dp))
                     Spacer(Modifier.width(6.dp))

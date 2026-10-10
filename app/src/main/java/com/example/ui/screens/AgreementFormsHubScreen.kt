@@ -40,6 +40,9 @@ import com.example.data.getFormStatuses
 import com.example.ui.AppScreen
 import com.example.ui.MainViewModel
 import com.example.ui.components.ResetAllFormsButton
+import com.example.ui.components.GlassOrb3DIcon
+import com.example.ui.components.GlassmorphicCard
+import com.example.ui.components.PastelAmbientBackground
 import com.example.util.AgreementFormsPdfGenerator
 import com.example.util.ShareHelper
 
@@ -74,76 +77,84 @@ fun AgreementFormsHubScreen(
                         Text(
                             text = "এগ্রিমেন্ট ফরম ব্যবস্থাপনা",
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF0F172A)
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color(0xFF0F2942)
                         )
                         Text(
                             text = "অফিসিয়াল এগ্রিমেন্ট ফরমসমূহ",
-                            fontSize = 11.5.sp,
-                            color = MaterialTheme.colorScheme.primary
+                            fontSize = 12.sp,
+                            color = Color(0xFF0F766E),
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack, modifier = Modifier.testTag("btn_back_agreement_hub")) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "ফিরে যান")
-                    }
+                    GlassOrb3DIcon(
+                        icon = Icons.AutoMirrored.Filled.ArrowBack,
+                        size = 38.dp,
+                        iconSize = 18.dp,
+                        iconTint = Color(0xFF0F2942),
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .clickable(onClick = onBack)
+                            .testTag("btn_back_agreement_hub")
+                    )
                 },
                 actions = {
-                    IconButton(
-                        onClick = { onNavigateToForm(AppScreen.CLOUD_FUNCTIONS) },
-                        modifier = Modifier.testTag("btn_hub_cloud_functions")
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CloudSync,
-                            contentDescription = "Firebase Cloud Functions",
-                            tint = Color(0xFF0F766E)
-                        )
-                    }
+                    GlassOrb3DIcon(
+                        icon = Icons.Default.CloudSync,
+                        size = 38.dp,
+                        iconSize = 18.dp,
+                        iconTint = Color(0xFF0284C7),
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .clickable { onNavigateToForm(AppScreen.CLOUD_FUNCTIONS) }
+                            .testTag("btn_hub_cloud_functions")
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFE8F5E9),
-                    titleContentColor = MaterialTheme.colorScheme.primary
+                    containerColor = Color(0xFFE0F2FE).copy(alpha = 0.85f)
                 )
             )
         }
     ) { paddingValues ->
-        Column(
+        PastelAmbientBackground(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFE8F5E9))
-                .verticalScroll(scrollState)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Instructions Banner
-            Surface(
-                shape = RoundedCornerShape(14.dp),
-                color = Color(0xFFECFDF5),
-                border = BorderStroke(1.2.dp, Color(0xFFA7F3D0)),
-                modifier = Modifier.fillMaxWidth()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(14.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                Row(
-                    modifier = Modifier.padding(14.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                // Instructions Banner
+                GlassmorphicCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    cornerShape = RoundedCornerShape(18.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = null,
-                        tint = Color(0xFF059669),
-                        modifier = Modifier.size(26.dp)
-                    )
-                    Spacer(Modifier.width(10.dp))
-                    Text(
-                        text = "আপনার সমস্ত ফরম পূরণের পর হোম স্ক্রিনের অপশনে ক্লিক করে প্রিন্ট অথবা শেয়ার করুন।",
-                        fontSize = 13.5.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF065F46),
-                        lineHeight = 19.sp
-                    )
+                    Row(
+                        modifier = Modifier.padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        GlassOrb3DIcon(
+                            icon = Icons.Default.Info,
+                            size = 40.dp,
+                            iconSize = 20.dp,
+                            iconTint = Color(0xFF059669)
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            text = "আপনার সমস্ত ফরম পূরণের পর হোম স্ক্রিনের অপশনে ক্লিক করে প্রিন্ট অথবা শেয়ার করুন।",
+                            fontSize = 13.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF0F2942),
+                            lineHeight = 19.sp
+                        )
+                    }
                 }
-            }
 
             // Reset All Forms Button
             ResetAllFormsButton(
@@ -232,7 +243,7 @@ fun AgreementFormsHubScreen(
                 englishTitle = "Relationship Declaration Form",
                 description = "আরআরএফ-এ কর্মরত আত্মীয় বা পরিচিত ব্যক্তির বিবরণ অথবা 'I have none' ঘোষণা।",
                 icon = Icons.Default.PeopleAlt,
-                accentColor = Color(0xFF059669),
+                accentColor = Color(0xFF0F3B7E),
                 gradientColors = listOf(Color(0xFFF0FDF4), Color(0xFFDCFCE7)),
                 onEdit = { onNavigateToForm(AppScreen.FORM_RELATIONSHIP) },
                 onPreview = {
@@ -264,7 +275,7 @@ fun AgreementFormsHubScreen(
                 englishTitle = "Staff Information Search Form (3-Page)",
                 description = "ব্যক্তিগত, শিক্ষা, অভিজ্ঞতা, পরিবার ও জামিনদার সংক্রান্ত ৩ পাতার পূর্ণাঙ্গ ফরম।",
                 icon = Icons.Default.Description,
-                accentColor = Color(0xFF059669),
+                accentColor = Color(0xFF0F3B7E),
                 gradientColors = listOf(Color(0xFFECFDF5), Color(0xFFD1FAE5)),
                 onEdit = { onNavigateToForm(AppScreen.FORM_PERSONAL_INFO) },
                 onPreview = {
@@ -293,6 +304,7 @@ fun AgreementFormsHubScreen(
         }
     }
 }
+}
 
 @Composable
 private fun AgreementFormCard(
@@ -306,52 +318,25 @@ private fun AgreementFormCard(
     onEdit: () -> Unit,
     onPreview: () -> Unit
 ) {
-    Surface(
-        shape = RoundedCornerShape(20.dp),
-        color = Color.White,
-        border = BorderStroke(1.5.dp, accentColor.copy(alpha = 0.35f)),
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(8.dp, RoundedCornerShape(20.dp))
+    GlassmorphicCard(
+        modifier = Modifier.fillMaxWidth(),
+        cornerShape = RoundedCornerShape(22.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            gradientColors[0].copy(alpha = 0.6f),
-                            Color.White,
-                            Color.White
-                        )
-                    )
-                )
-                .padding(18.dp)
+                .padding(16.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = Color.Transparent,
-                    modifier = Modifier
-                        .size(50.dp)
-                        .shadow(6.dp, RoundedCornerShape(16.dp))
-                        .background(
-                            Brush.linearGradient(listOf(accentColor, accentColor.copy(alpha = 0.7f))),
-                            RoundedCornerShape(16.dp)
-                        )
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(26.dp)
-                        )
-                    }
-                }
+                GlassOrb3DIcon(
+                    icon = icon,
+                    size = 52.dp,
+                    iconSize = 26.dp,
+                    iconTint = accentColor
+                )
 
                 Spacer(Modifier.width(14.dp))
 
@@ -376,14 +361,14 @@ private fun AgreementFormCard(
                             text = title,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF0F172A)
+                            color = Color(0xFF0F2942)
                         )
                     }
                     Spacer(Modifier.height(2.dp))
                     Text(
                         text = englishTitle,
-                        fontSize = 11.5.sp,
-                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
                         color = accentColor
                     )
                 }

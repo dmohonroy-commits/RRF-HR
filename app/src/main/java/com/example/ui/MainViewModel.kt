@@ -36,7 +36,8 @@ enum class AppScreen {
     FORM_NOMINEE,
     FORM_PERSONAL_INFO,
     FORM_VERIFICATION,
-    CLOUD_FUNCTIONS
+    CLOUD_FUNCTIONS,
+    WEB_PORTAL
 }
 
 data class FormState(

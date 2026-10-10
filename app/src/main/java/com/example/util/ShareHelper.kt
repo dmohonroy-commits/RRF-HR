@@ -206,6 +206,11 @@ object ShareHelper {
                 return
             }
 
+            if (file.name.endsWith(".html", ignoreCase = true) || file.name.endsWith(".htm", ignoreCase = true)) {
+                openHtmlInBrowser(context, file)
+                return
+            }
+
             val uri = getFileUri(context, file)
             val mimeType = getMimeType(file)
 
@@ -216,7 +221,7 @@ object ShareHelper {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
 
-            val chooser = Intent.createChooser(intent, "PDF ওপেন / প্রিন্ট করুন").apply {
+            val chooser = Intent.createChooser(intent, "ফাইল ওপেন / প্রিন্ট করুন").apply {
                 clipData = ClipData.newRawUri(file.name, uri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -242,6 +247,40 @@ object ShareHelper {
             context.startActivity(chooser)
         } catch (_: Exception) {
             shareFile(context, file, file.name)
+        }
+    }
+
+    /**
+     * Dedicated robust method to open HTML files in Chrome or external browsers.
+     * Saves copy to public Downloads so external browsers can safely read local HTML.
+     */
+    fun openHtmlInBrowser(context: Context, file: File) {
+        try {
+            if (!file.exists() || file.length() == 0L) {
+                Toast.makeText(context, "এইচটিএমএল ফাইল পাওয়া যায়নি!", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // Copy to public Downloads/RRF_HR_Forms for browser accessibility
+            saveFileToDownloads(context, file, "RRF_HR_Web_Portal.html")
+
+            val uri = getFileUri(context, file)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "text/html")
+                clipData = ClipData.newRawUri(file.name, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            val chooser = Intent.createChooser(intent, "ওয়েব ব্রাউজারে অপেন করুন (Chrome/Browser)").apply {
+                clipData = ClipData.newRawUri(file.name, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            context.startActivity(chooser)
+        } catch (e: Exception) {
+            fallbackShare(context, file, "আরআরএফ ওয়েব ভার্সন পোর্টাল")
         }
     }
 

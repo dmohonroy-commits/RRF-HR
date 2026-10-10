@@ -36,6 +36,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.example.ui.components.RrfOfficialLogoVideoPlayer
+import com.example.ui.components.DenimAmbientBackground
+import com.example.ui.components.DenimStitchedCard
+import com.example.ui.components.Denim3DButtonOrb
+import com.example.ui.components.Denim3DIconButton
+import com.example.ui.components.Denim3DPdfButton
+import com.example.ui.components.DenimButtonColor
+import com.example.ui.components.GlassOrb3DIcon
+import com.example.ui.components.GlassOrb3DPdfIcon
+import com.example.ui.components.GlassmorphicCard
+import com.example.ui.components.PastelAmbientBackground
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.AgreementEntity
@@ -110,28 +120,28 @@ fun HomeScreen(
     val sliderItems = remember {
         listOf(
             SliderItem(
-                title = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন",
-                subtitle = "মানবিক উন্নয়ন ও টেকসই সমৃদ্ধির অঙ্গীকার",
-                icon = Icons.Default.Apartment,
+                title = "প্রশাসন ও মানবসম্পদ বিভাগ",
+                subtitle = "দক্ষ ও নিষ্ঠাবান কর্মী বাহিনী গঠনে প্রতিশ্রুতিবদ্ধ",
+                icon = Icons.Default.Home,
                 gradientColors = listOf(Color(0xFF0F766E), Color(0xFF0D9488), Color(0xFF14B8A6))
             ),
             SliderItem(
                 title = "১০০ টাকার স্ট্যাম্প চুক্তিপত্র",
                 subtitle = "কর্মী জামানতনামা ও লিগাল সাইজ প্রিন্ট পোর্টাল",
                 icon = Icons.Default.Description,
-                gradientColors = listOf(Color(0xFF065F46), Color(0xFF059669), Color(0xFF10B981))
+                gradientColors = listOf(Color(0xFF0F3B7E), Color(0xFF1E40AF), Color(0xFF3B82F6))
             ),
             SliderItem(
                 title = "এগ্রিমেন্ট ও তথ্যানুসন্ধান ফরম",
                 subtitle = "৫টি অফিসিয়াল A4 সাইজ ফরম ও অটোমেশন",
                 icon = Icons.Default.FolderShared,
-                gradientColors = listOf(Color(0xFF047857), Color(0xFF059669), Color(0xFF34D399))
+                gradientColors = listOf(Color(0xFF0F2B5B), Color(0xFF0F3B7E), Color(0xFF2563EB))
             ),
             SliderItem(
-                title = "প্রশাসন ও মানবসম্পদ বিভাগ",
-                subtitle = "দক্ষ ও নিষ্ঠাবান কর্মী বাহিনী গঠনে প্রতিশ্রুতিবদ্ধ",
-                icon = Icons.Default.Groups,
-                gradientColors = listOf(Color(0xFF064E3B), Color(0xFF047857), Color(0xFF059669))
+                title = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন",
+                subtitle = "মানবিক উন্নয়ন ও টেকসই সমৃদ্ধির অঙ্গীকার",
+                icon = Icons.Default.Apartment,
+                gradientColors = listOf(Color(0xFF0A192F), Color(0xFF0F3B7E), Color(0xFF1D4ED8))
             )
         )
     }
@@ -156,20 +166,18 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                modifier = Modifier.shadow(
-                    elevation = 6.dp,
-                    spotColor = Color.White.copy(alpha = 0.15f)
-                ),
                 navigationIcon = {
                     IconButton(
                         onClick = onOpenMenu,
-                        modifier = Modifier.testTag("btn_menu_drawer")
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .testTag("btn_menu_drawer")
                     ) {
                         Icon(
                             imageVector = Icons.Default.Menu,
-                            contentDescription = "মেনু বার",
-                            tint = Color.White,
-                            modifier = Modifier.size(26.dp)
+                            contentDescription = "Menu",
+                            tint = Color(0xFFE2E8F0),
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                 },
@@ -177,67 +185,34 @@ fun HomeScreen(
                     Text(
                         text = "RRF HR",
                         fontWeight = FontWeight.ExtraBold,
-                        fontSize = 20.sp,
+                        fontSize = 24.sp,
                         color = Color.White,
                         letterSpacing = 0.5.sp
                     )
                 },
                 actions = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Surface(
-                            shape = CircleShape,
-                            color = Color.White.copy(alpha = 0.12f),
-                            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clickable(onClick = onOpenAdminLogin),
-                            shadowElevation = 4.dp
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = Icons.Default.Person,
-                                    contentDescription = "প্রোফাইল",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-                        Spacer(Modifier.width(6.dp))
-                    }
+                    Denim3DIconButton(
+                        icon = Icons.Default.Person,
+                        size = 40.dp,
+                        iconSize = 22.dp,
+                        iconTint = Color(0xFFE2E8F0),
+                        themeColor = DenimButtonColor.DarkInset,
+                        modifier = Modifier
+                            .padding(end = 12.dp)
+                            .clickable(onClick = onOpenAdminLogin)
+                    )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFF1B365D).copy(alpha = 0.95f)
+                    containerColor = Color.Transparent
                 )
             )
         }
     ) { paddingValues ->
-        Box(
+        DenimAmbientBackground(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFF1B365D)) // Solid professional lighter navy blue background
         ) {
-            // Subtle ambient lighting for real glass refraction
-            Box(
-                modifier = Modifier
-                    .size(260.dp)
-                    .align(Alignment.TopEnd)
-                    .offset(x = 80.dp, y = (-60).dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF10B981).copy(alpha = 0.08f))
-            )
-            Box(
-                modifier = Modifier
-                    .size(240.dp)
-                    .align(Alignment.BottomStart)
-                    .offset(x = (-70).dp, y = 70.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF0EA5E9).copy(alpha = 0.08f))
-            )
-
             AnimatedVisibility(
                 visible = isVisible,
                 enter = fadeIn(animationSpec = tween(700)) + slideInVertically(
@@ -250,469 +225,327 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .verticalScroll(scrollState)
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
 
                     // =========================================================
-                    // 7-SECOND AUTO-SLIDING REAL PREMIUM GLASS BANNER
+                    // 7-SECOND AUTO-SLIDING REAL DENIM 3D HERO BANNER
                     // =========================================================
-                    Surface(
-                        shape = RoundedCornerShape(16.dp),
-                        color = Color.Transparent,
-                        border = BorderStroke(1.2.dp, Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.5f), Color.White.copy(alpha = 0.1f)))),
+                    DenimStitchedCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .scale(pulseScale)
-                            .shadow(
-                                elevation = 12.dp,
-                                shape = RoundedCornerShape(16.dp),
-                                spotColor = Color.White.copy(alpha = 0.15f)
-                            )
+                            .scale(pulseScale),
+                        cornerShape = RoundedCornerShape(22.dp)
                     ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                Brush.verticalGradient(
-                                    listOf(
-                                        Color.White.copy(alpha = 0.14f),
-                                        Color.White.copy(alpha = 0.05f)
-                                    )
-                                )
-                            )
-                    ) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(215.dp)
-                        ) {
-                            HorizontalPager(
-                                state = pagerState,
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            Box(
                                 modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(RoundedCornerShape(16.dp))
-                            ) { page ->
-                                val item = sliderItems[page]
-                                val pageOffset = kotlin.math.abs((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction)
-                                val scaleFactor = 0.85f + (0.15f * (1f - pageOffset.coerceIn(0f, 1f)))
-                                val alphaFactor = 0.4f + (0.6f * (1f - pageOffset.coerceIn(0f, 1f)))
-
-                                Box(
+                                    .fillMaxWidth()
+                                    .height(200.dp)
+                            ) {
+                                HorizontalPager(
+                                    state = pagerState,
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .graphicsLayer {
-                                            scaleX = scaleFactor
-                                            scaleY = scaleFactor
-                                            alpha = alphaFactor
-                                            rotationY = pageOffset * 15f
-                                        }
-                                        .background(Color.White.copy(alpha = 0.03f))
-                                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-                                        // Official 8-second 3D RRF Logo Video Animation (Dark Background Removed & Zero Cropping)
-                                        RrfOfficialLogoVideoPlayer(
-                                            size = 72.dp,
-                                            showSubLabel = false
-                                        )
+                                        .clip(RoundedCornerShape(22.dp))
+                                ) { page ->
+                                    val item = sliderItems[page]
+                                    val pageOffset = kotlin.math.abs((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction)
+                                    val scaleFactor = 0.88f + (0.12f * (1f - pageOffset.coerceIn(0f, 1f)))
+                                    val alphaFactor = 0.45f + (0.55f * (1f - pageOffset.coerceIn(0f, 1f)))
 
-                                        Spacer(Modifier.height(4.dp))
-
-                                        Text(
-                                            text = item.title,
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.ExtraBold,
-                                            color = Color.White,
-                                            textAlign = TextAlign.Center,
-                                            lineHeight = 20.sp
-                                        )
-
-                                        Spacer(Modifier.height(2.dp))
-
-                                        Text(
-                                            text = item.subtitle,
-                                            fontSize = 12.sp,
-                                            fontWeight = FontWeight.SemiBold,
-                                            color = Color.White.copy(alpha = 0.85f),
-                                            textAlign = TextAlign.Center,
-                                            lineHeight = 15.sp
-                                        )
-                                    }
-                                }
-                            }
-
-                            // Dots Indicator (Bottom Center)
-                            Row(
-                                modifier = Modifier
-                                    .align(Alignment.BottomCenter)
-                                    .padding(bottom = 4.dp),
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                repeat(totalSlideCount) { index ->
-                                    val isSelected = pagerState.currentPage == index
                                     Box(
                                         modifier = Modifier
-                                            .size(if (isSelected) 16.dp else 6.dp, 6.dp)
-                                            .clip(CircleShape)
-                                            .background(
-                                                if (isSelected) Color.White else Color.White.copy(alpha = 0.35f)
+                                            .fillMaxSize()
+                                            .graphicsLayer {
+                                                scaleX = scaleFactor
+                                                scaleY = scaleFactor
+                                                alpha = alphaFactor
+                                                rotationY = pageOffset * 15f
+                                            }
+                                            .padding(horizontal = 12.dp, vertical = 6.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            // Official RRF 3D Emblem Logo with transparent background (matching uploaded video)
+                                            RrfOfficialLogoVideoPlayer(
+                                                size = 78.dp
                                             )
-                                    )
+
+                                            Spacer(Modifier.height(6.dp))
+
+                                            Text(
+                                                text = item.title,
+                                                fontSize = 16.5.sp,
+                                                fontWeight = FontWeight.ExtraBold,
+                                                color = Color.White,
+                                                textAlign = TextAlign.Center,
+                                                lineHeight = 21.sp
+                                            )
+
+                                            Spacer(Modifier.height(3.dp))
+
+                                            Text(
+                                                text = item.subtitle,
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = Color(0xFFBAE6FD),
+                                                textAlign = TextAlign.Center,
+                                                lineHeight = 15.sp
+                                            )
+                                        }
+                                    }
+                                }
+
+                                // Dots Indicator (Bottom Center)
+                                Row(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomCenter)
+                                        .padding(bottom = 6.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                                ) {
+                                    repeat(totalSlideCount) { index ->
+                                        val isSelected = pagerState.currentPage == index
+                                        Box(
+                                            modifier = Modifier
+                                                .size(if (isSelected) 18.dp else 5.dp, 5.dp)
+                                                .clip(CircleShape)
+                                                .background(
+                                                    if (isSelected) Color(0xFF38BDF8) else Color(0xFF1E3A5F)
+                                                )
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
-                  }
-                }
 
-
-
-                // =========================================================
-                // 4 REAL PREMIUM GLASS CARDS (2x2 Grid) WITH DIAMOND SPARKLE ANIMATION
-                // =========================================================
-                val diamondTransition = rememberInfiniteTransition(label = "diamond_sparkle")
-                val diamondGlow by diamondTransition.animateFloat(
-                    initialValue = 0.2f,
-                    targetValue = 1.0f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
-                        repeatMode = RepeatMode.Reverse
-                    ),
-                    label = "diamond_glow"
-                )
-
-                val cardBorder = BorderStroke(
-                    1.8.dp,
-                    Brush.verticalGradient(
-                        listOf(
-                            Color.White.copy(alpha = diamondGlow),
-                            Color(0xFF7DD3FC).copy(alpha = diamondGlow * 0.8f),
-                            Color.White.copy(alpha = 0.3f)
-                        )
-                    )
-                )
-
-                val cardElevation = CardDefaults.cardElevation(
-                    defaultElevation = (8 + (diamondGlow * 6)).dp
-                )
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                ) {
-                    Row(
+                    // =========================================================
+                    // 4 REAL 3D DENIM CARDS (2x2 Grid - Stitches Removed)
+                    // =========================================================
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(14.dp)
-                    ) {
-                        // 1. Stamp Print Card
-                        Card(
-                            modifier = Modifier.weight(1f).aspectRatio(1.1f).clickable { showStampPrintDialog = true },
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.08f)),
-                            border = cardBorder,
-                            elevation = cardElevation
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            listOf(
-                                                Color.White.copy(alpha = 0.12f),
-                                                Color.White.copy(alpha = 0.03f)
-                                            )
-                                        )
-                                    )
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize().padding(10.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Surface(
-                                        shape = CircleShape,
-                                        color = Color.White.copy(alpha = 0.15f),
-                                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                                        modifier = Modifier.size(44.dp)
-                                    ) {
-                                        Box(contentAlignment = Alignment.Center) {
-                                            Icon(Icons.Default.Description, contentDescription = null, tint = Color.White, modifier = Modifier.size(24.dp))
-                                        }
-                                    }
-                                    Spacer(Modifier.height(6.dp))
-                                    Text("স্ট্যাম্প প্রিন্ট", fontSize = 14.5.sp, fontWeight = FontWeight.ExtraBold, color = Color.White, textAlign = TextAlign.Center)
-                                }
-                            }
-                        }
-                        // 2. Agreements Form Print Card
-                        Card(
-                            modifier = Modifier.weight(1f).aspectRatio(1.1f).clickable { showAgreementPrintDialog = true },
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.08f)),
-                            border = cardBorder,
-                            elevation = cardElevation
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            listOf(
-                                                Color.White.copy(alpha = 0.12f),
-                                                Color.White.copy(alpha = 0.03f)
-                                            )
-                                        )
-                                    )
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize().padding(10.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Surface(
-                                        shape = CircleShape,
-                                        color = Color.White.copy(alpha = 0.15f),
-                                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                                        modifier = Modifier.size(44.dp)
-                                    ) {
-                                        Box(contentAlignment = Alignment.Center) {
-                                            Icon(Icons.Default.PictureAsPdf, contentDescription = null, tint = Color.White, modifier = Modifier.size(24.dp))
-                                        }
-                                    }
-                                    Spacer(Modifier.height(6.dp))
-                                    Text("এগ্রিমেন্ট ফরম প্রিন্ট", fontSize = 14.5.sp, fontWeight = FontWeight.ExtraBold, color = Color.White, textAlign = TextAlign.Center)
-                                }
-                            }
-                        }
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(14.dp)
-                    ) {
-                        // 3. Organization Info Card
-                        Card(
-                            modifier = Modifier.weight(1f).aspectRatio(1.1f).clickable(onClick = onOpenOrgInfo),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.08f)),
-                            border = cardBorder,
-                            elevation = cardElevation
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            listOf(
-                                                Color.White.copy(alpha = 0.12f),
-                                                Color.White.copy(alpha = 0.03f)
-                                            )
-                                        )
-                                    )
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize().padding(10.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Surface(
-                                        shape = CircleShape,
-                                        color = Color.White.copy(alpha = 0.15f),
-                                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                                        modifier = Modifier.size(44.dp)
-                                    ) {
-                                        Box(contentAlignment = Alignment.Center) {
-                                            Icon(Icons.Default.Apartment, contentDescription = null, tint = Color.White, modifier = Modifier.size(24.dp))
-                                        }
-                                    }
-                                    Spacer(Modifier.height(6.dp))
-                                    Text("প্রতিষ্ঠান পরিচিতি", fontSize = 14.5.sp, fontWeight = FontWeight.ExtraBold, color = Color.White, textAlign = TextAlign.Center)
-                                }
-                            }
-                        }
-                        // 4. Agreement Rules Card
-                        Card(
-                            modifier = Modifier.weight(1f).aspectRatio(1.1f).clickable(onClick = onOpenTermsInfo),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.08f)),
-                            border = cardBorder,
-                            elevation = cardElevation
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            listOf(
-                                                Color.White.copy(alpha = 0.12f),
-                                                Color.White.copy(alpha = 0.03f)
-                                            )
-                                        )
-                                    )
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize().padding(10.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Surface(
-                                        shape = CircleShape,
-                                        color = Color.White.copy(alpha = 0.15f),
-                                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                                        modifier = Modifier.size(44.dp)
-                                    ) {
-                                        Box(contentAlignment = Alignment.Center) {
-                                            Icon(Icons.Default.Gavel, contentDescription = null, tint = Color.White, modifier = Modifier.size(24.dp))
-                                        }
-                                    }
-                                    Spacer(Modifier.height(6.dp))
-                                    Text("চুক্তিপত্রের নিয়মাবলী", fontSize = 14.5.sp, fontWeight = FontWeight.ExtraBold, color = Color.White, textAlign = TextAlign.Center)
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(2.dp))
-
-                // =========================================================
-                // WEB VERSION PORTAL CARD
-                // =========================================================
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = Color(0xFF059669),
-                    border = BorderStroke(1.2.dp, Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.6f), Color.White.copy(alpha = 0.2f)))),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .shadow(8.dp, RoundedCornerShape(12.dp))
-                        .clickable {
-                            val allAgreementsList = viewModel.allAgreements.value
-                            val htmlFile = com.example.util.HtmlExporter.exportFullWebAppPortal(context, allAgreementsList)
-                            com.example.util.ShareHelper.openFile(context, htmlFile)
-                        }
-                        .testTag("btn_home_web_portal")
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                Brush.verticalGradient(
-                                    listOf(
-                                        Color(0xFF059669),
-                                        Color(0xFF047857)
-                                    )
-                                )
-                            )
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            // 1. Stamp Print Card (Top Left)
+                            DenimStitchedCard(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .aspectRatio(1.22f),
+                                onClick = { showStampPrintDialog = true },
+                                cornerShape = RoundedCornerShape(20.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    // 3D Orange Orb with Cyan/White Document Icon
+                                    Denim3DIconButton(
+                                        icon = Icons.Default.Description,
+                                        size = 48.dp,
+                                        iconSize = 25.dp,
+                                        iconTint = Color(0xFF38BDF8),
+                                        themeColor = DenimButtonColor.Orange
+                                    )
+                                    Spacer(Modifier.height(7.dp))
+                                    Text(
+                                        text = "স্ট্যাম্প প্রিন্ট",
+                                        fontSize = 14.5.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+
+                            // 2. Agreements Form Print Card (Top Right)
+                            DenimStitchedCard(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .aspectRatio(1.22f),
+                                onClick = { showAgreementPrintDialog = true },
+                                cornerShape = RoundedCornerShape(20.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    // 3D Cyan Orb with PDF badge
+                                    Denim3DPdfButton(
+                                        size = 48.dp,
+                                        themeColor = DenimButtonColor.Cyan
+                                    )
+                                    Spacer(Modifier.height(7.dp))
+                                    Text(
+                                        text = "এগ্রিমেন্ট ফরম প্রিন্ট",
+                                        fontSize = 14.5.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            // 3. Organization Info Card (Bottom Left)
+                            DenimStitchedCard(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .aspectRatio(1.22f),
+                                onClick = onOpenOrgInfo,
+                                cornerShape = RoundedCornerShape(20.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    // 3D Coral/Orange Orb with White Building Icon
+                                    Denim3DIconButton(
+                                        icon = Icons.Default.Apartment,
+                                        size = 48.dp,
+                                        iconSize = 25.dp,
+                                        iconTint = Color(0xFFFFF1F2),
+                                        themeColor = DenimButtonColor.Orange
+                                    )
+                                    Spacer(Modifier.height(7.dp))
+                                    Text(
+                                        text = "প্রতিষ্ঠান পরিচিতি",
+                                        fontSize = 14.5.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+
+                            // 4. Agreement Rules Card (Bottom Right)
+                            DenimStitchedCard(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .aspectRatio(1.22f),
+                                onClick = onOpenTermsInfo,
+                                cornerShape = RoundedCornerShape(20.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    // 3D Cyan Orb with Wooden/Amber Gavel Icon
+                                    Denim3DIconButton(
+                                        icon = Icons.Default.Gavel,
+                                        size = 48.dp,
+                                        iconSize = 25.dp,
+                                        iconTint = Color(0xFFFED7AA),
+                                        themeColor = DenimButtonColor.Cyan
+                                    )
+                                    Spacer(Modifier.height(7.dp))
+                                    Text(
+                                        text = "চুক্তিপত্রের নিয়মাবলী",
+                                        fontSize = 14.5.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // =========================================================
+                    // CONTACT & HELPLINE DENIM CARD
+                    // =========================================================
+                    DenimStitchedCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag("btn_home_contact_info"),
+                        onClick = onOpenContactInfo,
+                        cornerShape = RoundedCornerShape(18.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 9.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            Surface(
-                                shape = CircleShape,
-                                color = Color.White.copy(alpha = 0.2f),
-                                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)),
-                                modifier = Modifier.size(36.dp)
-                            ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    Icon(
-                                        imageVector = Icons.Default.Language,
-                                        contentDescription = null,
-                                        tint = Color.White,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                            }
+                            Denim3DIconButton(
+                                icon = Icons.Default.SupportAgent,
+                                size = 42.dp,
+                                iconSize = 22.dp,
+                                iconTint = Color(0xFF38BDF8),
+                                themeColor = DenimButtonColor.DarkInset
+                            )
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "🌐 অ্যাপের ওয়েব ভার্সন (HTML Web App)",
-                                    fontSize = 14.sp,
+                                    text = "যোগাযোগ ও হেল্পলাইন",
+                                    fontSize = 15.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = Color(0xFFF59E0B)
                                 )
                                 Text(
-                                    text = "মোবাইল ও ল্যাপটপের জন্য পূর্ণাঙ্গ ওয়েব পোর্টেলে রূপান্তর করুন",
-                                    fontSize = 11.sp,
-                                    color = Color.White.copy(alpha = 0.9f)
+                                    text = "আরআরএফ মানবসম্পদ বিভাগ ও জরুরি সহায়তা",
+                                    fontSize = 11.5.sp,
+                                    color = Color(0xFFFDE68A)
                                 )
                             }
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                                 contentDescription = null,
-                                tint = Color.White,
+                                tint = Color(0xFFF59E0B),
                                 modifier = Modifier.size(18.dp)
                             )
                         }
                     }
-                }
 
-                Spacer(Modifier.height(2.dp))
-
-                // =========================================================
-                // CONTACT & HELPLINE REAL GLASS CARD
-                // =========================================================
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = Color.White.copy(alpha = 0.08f),
-                    border = BorderStroke(1.2.dp, Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.5f), Color.White.copy(alpha = 0.1f)))),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .shadow(8.dp, RoundedCornerShape(12.dp))
-                        .clickable(onClick = onOpenContactInfo)
-                        .testTag("btn_home_contact_info")
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                Brush.verticalGradient(
-                                    listOf(
-                                        Color.White.copy(alpha = 0.12f),
-                                        Color.White.copy(alpha = 0.03f)
-                                    )
-                                )
-                            )
+                    // Guidance box for filling forms via 3-line menu
+                    DenimStitchedCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = onOpenMenu,
+                        cornerShape = RoundedCornerShape(18.dp)
                     ) {
                         Row(
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            Surface(
-                                shape = CircleShape,
-                                color = Color.White.copy(alpha = 0.15f),
-                                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                                modifier = Modifier.size(32.dp)
-                            ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    Icon(
-                                        imageVector = Icons.Default.SupportAgent,
-                                        contentDescription = null,
-                                        tint = Color.White,
-                                        modifier = Modifier.size(18.dp)
-                                    )
-                                }
-                            }
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = "যোগাযোগ ও হেল্পলাইন",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "আরআরএফ মানবসম্পদ বিভাগ ও জরুরি সহায়তা",
-                                    fontSize = 11.sp,
-                                    color = Color.White.copy(alpha = 0.8f)
-                                )
-                            }
+                            Denim3DIconButton(
+                                icon = Icons.Default.Menu,
+                                size = 32.dp,
+                                iconSize = 18.dp,
+                                iconTint = Color(0xFF38BDF8),
+                                themeColor = DenimButtonColor.DarkInset
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "লাইনে ক্লিক করে ফরম পূরণ করুন",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            Spacer(Modifier.width(6.dp))
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                                 contentDescription = null,
@@ -721,83 +554,45 @@ fun HomeScreen(
                             )
                         }
                     }
-                }
 
-                // Guidance box for filling forms via 3-line menu
-                Surface(
-                    onClick = onOpenMenu,
-                    shape = RoundedCornerShape(12.dp),
-                    color = Color.White.copy(alpha = 0.08f),
-                    border = BorderStroke(1.2.dp, Brush.verticalGradient(listOf(Color.White.copy(alpha = 0.5f), Color.White.copy(alpha = 0.1f)))),
-                    shadowElevation = 6.dp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 2.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                Brush.verticalGradient(
-                                    listOf(
-                                        Color.White.copy(alpha = 0.12f),
-                                        Color.White.copy(alpha = 0.03f)
-                                    )
-                                )
-                            )
+                    // =========================================================
+                    // INSTITUTION NAME FULL-PAGE BOTTOM SECTION
+                    // "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ)"
+                    // =========================================================
+                    DenimStitchedCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        cornerShape = RoundedCornerShape(16.dp)
                     ) {
                         Row(
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 14.dp, vertical = 8.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Surface(
-                                shape = CircleShape,
-                                color = Color.White.copy(alpha = 0.15f),
-                                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                                modifier = Modifier.size(24.dp)
-                            ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    Icon(
-                                        imageVector = Icons.Default.Menu,
-                                        contentDescription = null,
-                                        tint = Color.White,
-                                        modifier = Modifier.size(14.dp)
-                                    )
-                                }
-                            }
-                            Spacer(Modifier.width(6.dp))
-                            Text(
-                                text = "লাইনে ক্লিক করে ফরম পূরণ করুন",
-                                fontSize = 12.5.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
+                            Denim3DIconButton(
+                                icon = Icons.Default.Apartment,
+                                size = 28.dp,
+                                iconSize = 16.dp,
+                                iconTint = Color(0xFF38BDF8),
+                                themeColor = DenimButtonColor.DarkInset
                             )
-                            Spacer(Modifier.width(4.dp))
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(14.dp)
+                            Spacer(Modifier.width(8.dp))
+                            Text(
+                                text = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ)",
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFFE2E8F0),
+                                textAlign = TextAlign.Center,
+                                letterSpacing = 0.3.sp
                             )
                         }
                     }
+
+                    Spacer(Modifier.height(10.dp))
                 }
-
-                // Copyright Footer
-                Text(
-                    text = "রুরাল রিকনস্ট্রাকশন ফাউন্ডেশন (আরআরএফ)",
-                    fontSize = 10.5.sp,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(Modifier.height(4.dp))
             }
         }
-      }
     }
 
     // 1. Stamp Print & Share Dialog (100 Tk Stamp & 25 Tk Stamp Options)
@@ -806,9 +601,9 @@ fun HomeScreen(
         AlertDialog(
             onDismissRequest = { showStampPrintDialog = false },
             icon = {
-                Surface(shape = CircleShape, color = Color(0xFF059669).copy(alpha = 0.12f), modifier = Modifier.size(52.dp)) {
+                Surface(shape = CircleShape, color = Color(0xFF0F3B7E).copy(alpha = 0.12f), modifier = Modifier.size(52.dp)) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(Icons.Default.Print, contentDescription = null, tint = Color(0xFF059669), modifier = Modifier.size(28.dp))
+                        Icon(Icons.Default.Print, contentDescription = null, tint = Color(0xFF0F3B7E), modifier = Modifier.size(28.dp))
                     }
                 }
             },
@@ -817,7 +612,7 @@ fun HomeScreen(
                     text = "স্ট্যাম্প প্রিন্ট অপশন নির্বাচন",
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    color = Color(0xFF059669),
+                    color = Color(0xFF0F3B7E),
                     textAlign = TextAlign.Center
                 )
             },
@@ -831,8 +626,8 @@ fun HomeScreen(
                         Surface(
                             onClick = { selectedStampOption = 0 },
                             shape = RoundedCornerShape(10.dp),
-                            color = if (selectedStampOption == 0) Color(0xFF059669) else MaterialTheme.colorScheme.surfaceVariant,
-                            border = BorderStroke(1.2.dp, if (selectedStampOption == 0) Color(0xFF059669) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)),
+                            color = if (selectedStampOption == 0) Color(0xFF0F3B7E) else MaterialTheme.colorScheme.surfaceVariant,
+                            border = BorderStroke(1.2.dp, if (selectedStampOption == 0) Color(0xFF0F3B7E) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)),
                             modifier = Modifier.weight(1f).height(44.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(horizontal = 4.dp)) {
@@ -848,8 +643,8 @@ fun HomeScreen(
                         Surface(
                             onClick = { selectedStampOption = 1 },
                             shape = RoundedCornerShape(10.dp),
-                            color = if (selectedStampOption == 1) Color(0xFF059669) else MaterialTheme.colorScheme.surfaceVariant,
-                            border = BorderStroke(1.2.dp, if (selectedStampOption == 1) Color(0xFF059669) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)),
+                            color = if (selectedStampOption == 1) Color(0xFF0F3B7E) else MaterialTheme.colorScheme.surfaceVariant,
+                            border = BorderStroke(1.2.dp, if (selectedStampOption == 1) Color(0xFF0F3B7E) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)),
                             modifier = Modifier.weight(1f).height(44.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(horizontal = 4.dp)) {
@@ -905,7 +700,7 @@ fun HomeScreen(
                                 ShareHelper.openFile(context, pdf)
                                 showStampPrintDialog = false
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669)),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F3B7E)),
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth().height(42.dp)
                         ) {
@@ -922,8 +717,8 @@ fun HomeScreen(
                                 ShareHelper.shareFile(context, pdf, caption)
                                 showStampPrintDialog = false
                             },
-                            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF059669)),
-                            border = BorderStroke(1.2.dp, Color(0xFF059669)),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF0F3B7E)),
+                            border = BorderStroke(1.2.dp, Color(0xFF0F3B7E)),
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth().height(40.dp)
                         ) {
@@ -1022,7 +817,7 @@ fun HomeScreen(
                                 ShareHelper.openFile(context, pdf)
                                 showStampPrintDialog = false
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669)),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F3B7E)),
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth().height(42.dp)
                         ) {
@@ -1039,8 +834,8 @@ fun HomeScreen(
                                 ShareHelper.shareFile(context, pdf, caption)
                                 showStampPrintDialog = false
                             },
-                            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF059669)),
-                            border = BorderStroke(1.2.dp, Color(0xFF059669)),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF0F3B7E)),
+                            border = BorderStroke(1.2.dp, Color(0xFF0F3B7E)),
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth().height(40.dp)
                         ) {
@@ -1112,9 +907,9 @@ fun HomeScreen(
         AlertDialog(
             onDismissRequest = { showAgreementPrintDialog = false },
             icon = {
-                Surface(shape = CircleShape, color = Color(0xFF059669).copy(alpha = 0.12f), modifier = Modifier.size(52.dp)) {
+                Surface(shape = CircleShape, color = Color(0xFF0F3B7E).copy(alpha = 0.12f), modifier = Modifier.size(52.dp)) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(Icons.Default.PictureAsPdf, contentDescription = null, tint = Color(0xFF059669), modifier = Modifier.size(28.dp))
+                        Icon(Icons.Default.PictureAsPdf, contentDescription = null, tint = Color(0xFF0F3B7E), modifier = Modifier.size(28.dp))
                     }
                 }
             },
@@ -1123,7 +918,7 @@ fun HomeScreen(
                     text = "এগ্রিমেন্ট ফরম প্রিন্ট ও শেয়ার",
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    color = Color(0xFF059669),
+                    color = Color(0xFF0F3B7E),
                     textAlign = TextAlign.Center
                 )
             },
@@ -1143,7 +938,7 @@ fun HomeScreen(
                             ShareHelper.openFile(context, pdf)
                             showAgreementPrintDialog = false
                         },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF059669)),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F3B7E)),
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxWidth().height(44.dp)
                     ) {
@@ -1159,8 +954,8 @@ fun HomeScreen(
                             ShareHelper.shareFile(context, pdf, "আরআরএফ সকল এগ্রিমেন্ট ফরম (মার্জকৃত A4 PDF)")
                             showAgreementPrintDialog = false
                         },
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF059669)),
-                        border = BorderStroke(1.5.dp, Color(0xFF059669)),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF0F3B7E)),
+                        border = BorderStroke(1.5.dp, Color(0xFF0F3B7E)),
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxWidth().height(44.dp)
                     ) {
